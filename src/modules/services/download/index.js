@@ -5,6 +5,7 @@ const uuid = require("uuid");
 const imagemin = require("imagemin");
 const imageminMozjpeg = require("imagemin-mozjpeg");
 const axios = require("axios");
+const { logService } = require("../log");
 
 class DownloadService {
   index = 0;
@@ -18,6 +19,7 @@ class DownloadService {
   };
 
   initiateDownload = async ({ link, referer, id }) => {
+    logService.addToLog(`download initiated by link: ${link}`);
     const response = await axios.get(link, {
       headers: {
         referer,
@@ -31,12 +33,14 @@ class DownloadService {
   };
 
   handleImagesList = async (list) => {
+    logService.addToLog(`handle images list start`);
     const id = uuid.v4();
     this.createDefaultDir(id);
     for (let image of list) {
       await this.initiateDownload({ ...image, id });
     }
     this.index = 0;
+    logService.addToLog(`finished`);
     console.log("finished");
     // await this.compressImages(id);
     // await this.decompressImages(id);

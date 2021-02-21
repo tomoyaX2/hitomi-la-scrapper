@@ -1,4 +1,5 @@
 const appUrl = "https://hitomi.la";
-const isInTestMode = false;
+
+const isInTestMode = true;
 
 module.exports = { appUrl, isInTestMode };
