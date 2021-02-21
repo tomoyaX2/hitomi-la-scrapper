@@ -1,6 +1,10 @@
 # hitomi-la-scrapper
 
-yarn start from root
+yarn install
+
+yarn sequelize db:migrate (setup sequalize and sequelize-cli, if fails)
+
+yarn start 
 
 move to http://localhost:3000/scrapper
 
