@@ -1,5 +1,7 @@
 # hitomi-la-scrapper
 
+Check if postgres is installed on your device (if no - install it)
+ 
 yarn install
 
 yarn sequelize db:migrate (setup sequalize and sequelize-cli, if fails)
