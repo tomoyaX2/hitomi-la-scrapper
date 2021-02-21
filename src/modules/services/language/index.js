@@ -1,4 +1,4 @@
-const { dbService } = require("../db");
+const { scrapperDbService } = require("../db/scrapperDb.js");
 const uuid = require("uuid");
 
 class LanguageService {
@@ -8,9 +8,9 @@ class LanguageService {
   };
 
   verifyExistedLanguage = (language) => {
-    const existed = dbService.languages.find((el) => el.abbr === language.abbr);
+    const existed = scrapperDbService.languages.find((el) => el.abbr === language.abbr);
     if (!existed) {
-      dbService.pushLanguage(language);
+      scrapperDbService.pushLanguage(language);
       return language.id;
     }
     return existed.id;

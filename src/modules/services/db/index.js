@@ -1,95 +1,41 @@
 const {
-  Tag,
-  Series,
-  Author,
-  Language,
-  Type,
+  ProjectTags,
   Projects,
+  Tag,
+  Album,
+  Images,
+  AlbumImages,
 } = require("../../../../models");
 
 class DbService {
-  tags = [];
-  series = [];
-  authors = [];
-  languages = [];
-  types = [];
-  projects = [];
+  createProjectTagRelation = async (ProjectId, tagIds) => {
+    const data = await Projects.findOne({
+      where: { id: ProjectId },
+      include: Tag,
+    });
+    const existedTags = !!data ? data.Tags.map((el) => el.id) : [];
 
-  selectTagsList = async () => {
-    const dbData = await Tag.findAll();
-    const formatted = JSON.parse(JSON.stringify(dbData));
-    this.tags = formatted;
-  };
-
-  selectSeriesList = async () => {
-    const dbData = await Series.findAll();
-    const formatted = JSON.parse(JSON.stringify(dbData));
-    this.series = formatted;
-  };
-
-  selectAuthorsList = async () => {
-    const dbData = await Author.findAll();
-    const formatted = JSON.parse(JSON.stringify(dbData));
-    this.authors = formatted;
-  };
-
-  selectLanguagesList = async () => {
-    const dbData = await Language.findAll();
-    const formatted = JSON.parse(JSON.stringify(dbData));
-    this.languages = formatted;
-  };
-
-  selectTypesList = async () => {
-    const dbData = await Type.findAll();
-    const formatted = JSON.parse(JSON.stringify(dbData));
-    this.types = formatted;
-  };
-
-  selectProjectsList = async () => {
-    const dbData = await Projects.findAll();
-    const formatted = JSON.parse(JSON.stringify(dbData));
-    this.projects = formatted;
-  };
-
-  pushTags = async (tags) => {
-    this.tags = [...this.tags, ...tags];
-    for (let tag of tags) {
-      await Tag.create(tag);
+    for (let TagId of tagIds) {
+      const isAlreadyAssign = existedTags.some((el) => el === TagId);
+      if (!isAlreadyAssign) {
+        await ProjectTags.create({ ProjectId, TagId });
+      }
     }
   };
 
-  pushSeries = async (series) => {
-    this.series = [...this.series, series];
-    await Series.create(series);
-  };
+  createAlbumImageRelation = async (AlbumId, imageIds) => {
+    const data = await Album.findOne({
+      where: { id: AlbumId },
+      include: Images,
+    });
+    const existedTags = !!data ? data.Images.map((el) => el.id) : [];
 
-  pushAuthor = async (author) => {
-    this.authors = [...this.authors, author];
-    await Author.create(author);
-  };
-
-  pushLanguage = async (language) => {
-    this.languages = [...this.languages, language];
-    await Language.create(language);
-  };
-
-  pushType = async (type) => {
-    this.types = [...this.types, type];
-    await Type.create(type);
-  };
-
-  pushProject = async (project) => {
-    this.projects = [...this.projects, project];
-    await Projects.create(project);
-  };
-
-  prepeareServiceToScrap = async () => {
-    await this.selectTagsList();
-    await this.selectSeriesList();
-    await this.selectAuthorsList();
-    await this.selectLanguagesList();
-    await this.selectTypesList();
-    await this.selectProjectsList()
+    for (let ImageId of imageIds) {
+      const isAlreadyAssign = existedTags.some((el) => el === ImageId);
+      if (!isAlreadyAssign) {
+        await AlbumImages.create({ AlbumId, ImageId });
+      }
+    }
   };
 }
 

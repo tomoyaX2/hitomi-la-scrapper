@@ -1,4 +1,4 @@
-const { dbService } = require("../db");
+const { scrapperDbService } = require("../db/scrapperDb.js");
 const uuid = require("uuid");
 
 class TypesService {
@@ -8,9 +8,9 @@ class TypesService {
   };
 
   verifyExistedType = (type) => {
-    const existed = dbService.types.find((el) => el.name === type.name);
+    const existed = scrapperDbService.types.find((el) => el.name === type.name);
     if (!existed) {
-      dbService.pushType(type);
+      scrapperDbService.pushType(type);
       return type.id;
     }
     return existed.id;

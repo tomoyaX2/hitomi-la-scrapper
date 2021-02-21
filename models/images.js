@@ -7,12 +7,24 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {}
+    static associate(models) {
+      Images.belongsToMany(models.Album, {
+        through: "AlbumImages",
+      });
+    }
   }
   Images.init(
     {
-      album_id: DataTypes.UUID,
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+        unique: true,
+      },
       url: DataTypes.STRING,
+      remoteUrl: DataTypes.STRING,
+      referer: DataTypes.STRING,
+      name: DataTypes.STRING,
     },
     {
       sequelize,

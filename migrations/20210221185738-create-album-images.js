@@ -1,26 +1,17 @@
 "use strict";
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("Images", {
+    await queryInterface.createTable("AlbumImages", {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
       },
-      project_id: {
+      ImageId: {
         type: Sequelize.UUID,
       },
-      url: {
-        type: Sequelize.STRING,
-      },
-      name: {
-        type: Sequelize.STRING,
-      },
-      referer: {
-        type: Sequelize.STRING,
-      },
-      remoteUrl: {
-        type: Sequelize.STRING,
+      AlbumId: {
+        type: Sequelize.UUID,
       },
       createdAt: {
         allowNull: false,
@@ -33,6 +24,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("Images");
+    await queryInterface.dropTable("AlbumImages");
   },
 };

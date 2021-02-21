@@ -7,10 +7,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.UUID,
       },
-      project_id: {
+      ProjectId: {
         type: Sequelize.UUID,
       },
-      tag_id: {
+      TagId: {
         type: Sequelize.UUID,
       },
       createdAt: {

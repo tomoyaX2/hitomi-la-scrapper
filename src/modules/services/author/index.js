@@ -1,4 +1,4 @@
-const { dbService } = require("../db");
+const { scrapperDbService } = require("../db/scrapperDb.js");
 const uuid = require("uuid");
 
 class AuthorService {
@@ -8,9 +8,11 @@ class AuthorService {
   };
 
   verifyExistedAuthor = (author) => {
-    const existed = dbService.authors.find((el) => el.name === author.name);
+    const existed = scrapperDbService.authors.find(
+      (el) => el.name === author.name
+    );
     if (!existed) {
-      dbService.pushAuthor(author);
+      scrapperDbService.pushAuthor(author);
       return author.id;
     }
     return existed.id;

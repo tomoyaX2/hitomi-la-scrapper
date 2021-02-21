@@ -1,21 +1,17 @@
 "use strict";
 const { Model } = require("sequelize");
-
 module.exports = (sequelize, DataTypes) => {
-  class Album extends Model {
+  class AlbumImages extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Album.belongsToMany(models.Images, {
-        through: "AlbumImages",
-      });
+      // define association here
     }
   }
-
-  Album.init(
+  AlbumImages.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -23,12 +19,13 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         unique: true,
       },
-      name: DataTypes.STRING,
+      ImageId: DataTypes.UUID,
+      AlbumId: DataTypes.UUID,
     },
     {
       sequelize,
-      modelName: "Album",
+      modelName: "AlbumImages",
     }
   );
-  return Album;
+  return AlbumImages;
 };

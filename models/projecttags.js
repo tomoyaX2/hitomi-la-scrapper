@@ -1,7 +1,9 @@
 "use strict";
 const { Model } = require("sequelize");
+const uuid = require("uuid");
+
 module.exports = (sequelize, DataTypes) => {
-  class ProjectTag extends Model {
+  class ProjectTags extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,12 +13,22 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  ProjectTag.init(
-    { project_id: DataTypes.UUID, tag_id: DataTypes.UUID },
+  ProjectTags.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+        unique: true,
+      },
+      ProjectId: DataTypes.UUID,
+      TagId: DataTypes.UUID,
+    },
     {
       sequelize,
-      modelName: "ProjectTag",
+      modelName: "ProjectTags",
     }
   );
-  return ProjectTag;
+
+  return ProjectTags;
 };

@@ -3,6 +3,7 @@ const { appUrl, isInTestMode } = require("../../../utils/constants.js");
 const { downloadService } = require("../download/index.js");
 const { logService } = require("../log");
 const { selectors } = require("../../../utils/selectors");
+const { albumService } = require("../album");
 
 class ScrapperService {
   retryIndex = 0;
@@ -45,7 +46,7 @@ class ScrapperService {
 
   readSinglePageData = async () => {
     logService.addToLog(`read single page data start`);
-    const album = await this.readSingleTitlePage(
+    const { album } = await this.readSingleTitlePage(
       this.state.page.data[this.state.currentIndex]
     );
     if (!album) {
@@ -64,17 +65,20 @@ class ScrapperService {
         ...el,
       }).singleTitle
     );
-    return Array.isArray(content)
-      ? isInTestMode
-        ? [content[0]]
-        : content
-      : null;
+    return {
+      album: Array.isArray(content)
+        ? isInTestMode
+          ? [content[0]]
+          : content
+        : null,
+    };
   };
 
   readGalleryPages = async (album) => {
     logService.addToLog(`read gallery pages start`);
     const content = await selectElementService.selectPageDataForDownload(album);
-    await downloadService.handleImagesList(content);
+    const albumData = albumService.initiateAlbumCreation();
+    await downloadService.handleImagesList(content, albumData);
     this.moveToNextTitle();
   };
 

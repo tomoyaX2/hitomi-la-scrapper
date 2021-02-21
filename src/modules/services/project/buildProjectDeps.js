@@ -35,6 +35,7 @@ class BuildProjectDepsService {
     if (!!series) {
       return seriesService.parseSeriesData(series.title);
     }
+    return null;
   };
 
   initiateAuthorRead = (parentData) => {
@@ -42,9 +43,11 @@ class BuildProjectDepsService {
       selectors({ parentData }).project.author
     );
     const author = list.find((el) => el.link.includes("artist"));
+    console.log("AUTHOOOOOOR", author);
     if (!!author) {
       return authorService.parseAuthorData(author.title);
     }
+    return null;
   };
 
   initiateTypeRead = (parentData) => {
@@ -58,6 +61,7 @@ class BuildProjectDepsService {
     if (!!validType) {
       return typesService.parseTypeData(validType);
     }
+    return null;
   };
 
   initiateLanguageRead = (parentData) => {
@@ -65,13 +69,14 @@ class BuildProjectDepsService {
       selectors({ parentData }).project.language
     );
     const languageItem = list.find((el) => el.link.includes("index"));
-    const language = {
-      name: languageItem.title,
-      abbr: languageItem.link.split("-")[1].replace(".html", ""),
-    };
-    if (!!language) {
+    if (!!languageItem) {
+      const language = {
+        name: languageItem.title,
+        abbr: languageItem.link.split("-")[1].replace(".html", ""),
+      };
       return languageService.parseLanguageData(language);
     }
+    return null;
   };
 
   initiate = async (parentData) => {

@@ -42,11 +42,11 @@ class SelectElementService {
     return isImage ? data[0] : data;
   };
 
-  initiateTagsRead = async (parentData) => {
+  initiateTagsRead = async (parentData, projectId) => {
     const tagsContent = this.selectLinkElementContent(
       selectors({ parentData }).tags
     );
-    return await tagsService.parseTagsData(tagsContent);
+    return await tagsService.parseTagsData(tagsContent, projectId);
   };
 
   selectPageContent = async ({
@@ -65,10 +65,11 @@ class SelectElementService {
     if (hasToScrapProjectData) {
       const projectDeps = await buildProjectDepsService.initiate(parentData);
       const projectId = await projectService.selectProjectContent(projectDeps);
-      await this.initiateTagsRead(parentData);
+      await this.initiateTagsRead(parentData, projectId);
     }
     return { content };
   };
+
   selectPageDataForDownload = async (album) => {
     const result = [];
     for (let el of album) {

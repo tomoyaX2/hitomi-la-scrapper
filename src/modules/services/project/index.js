@@ -2,7 +2,7 @@ const cherio = require("cheerio");
 const { selectors } = require("../../../utils/selectors.js");
 const { logService } = require("../log/index.js");
 const uuid = require("uuid");
-const { dbService } = require("../db/index.js");
+const { scrapperDbService } = require("../db/scrapperDb.js");
 
 class ProjectService {
   selectProjectContent = ({
@@ -23,16 +23,19 @@ class ProjectService {
       author_id: authorId,
       series_id: seriesId,
       language_id: languageId,
-      types_id: typeId,
+      type_id: typeId,
       album_id: null,
     };
+    scrapperDbService.setCurrentProject(project);
     return this.filterExistedProject(project);
   };
 
   filterExistedProject = (project) => {
-    const existed = dbService.projects.find((el) => el.title === project.title);
+    const existed = scrapperDbService.projects.find(
+      (el) => el.title === project.title
+    );
     if (!existed) {
-      dbService.pushProject(project);
+      scrapperDbService.pushProject(project);
       return project.id;
     }
     return existed.id;

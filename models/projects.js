@@ -11,8 +11,6 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Projects.belongsToMany(models.Tag, {
         through: "ProjectTags",
-        foreignKey: "project_id",
-        as: "tags",
       });
       Projects.belongsTo(models.Author, {
         foreignKey: "author_id",
