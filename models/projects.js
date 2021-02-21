@@ -9,22 +9,41 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Projects.hasOne(models.Album, { foreignKey: "project_id", as: "album" });
       Projects.belongsToMany(models.Tag, {
         through: "ProjectTags",
         foreignKey: "project_id",
         as: "tags",
+      });
+      Projects.belongsTo(models.Author, {
+        foreignKey: "author_id",
+        as: "author",
+      });
+      Projects.belongsTo(models.Album, {
+        foreignKey: "album_id",
+        as: "album",
+      });
+      Projects.belongsTo(models.Series, {
+        foreignKey: "series_id",
+        as: "series",
+      });
+      Projects.belongsTo(models.Language, {
+        foreignKey: "language_id",
+        as: "language",
+      });
+      Projects.belongsTo(models.Type, {
+        foreignKey: "type_id",
+        as: "type",
       });
     }
   }
   Projects.init(
     {
       title: DataTypes.STRING,
-      type: DataTypes.STRING,
-      language: DataTypes.STRING,
-      type: DataTypes.STRING,
-      author: DataTypes.STRING,
+      type_id: DataTypes.UUID,
+      author_id: DataTypes.UUID,
       album_id: DataTypes.UUID,
+      series_id: DataTypes.UUID,
+      language_id: DataTypes.UUID,
     },
     {
       sequelize,

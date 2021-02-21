@@ -2,4 +2,6 @@ const appUrl = "https://hitomi.la";
 
 const isInTestMode = true;
 
-module.exports = { appUrl, isInTestMode };
+const typeList = ["doujinshi", "manga", "artist", "game", "anime"];
+
+module.exports = { appUrl, isInTestMode, typeList };

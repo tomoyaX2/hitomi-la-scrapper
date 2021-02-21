@@ -9,16 +9,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Album.belongsTo(models.Projects, {
-        foreignKey: "project_id",
-        as: "album",
-      });
       Album.hasMany(models.Images, { foreignKey: "album_id", as: "images" });
     }
   }
   Album.init(
     {
-      project_id: DataTypes.UUID,
       name: DataTypes.STRING,
     },
     {

@@ -1,4 +1,4 @@
-const selectors = (el) => {
+const selectors = (el = {}) => {
   return {
     mainPage: {
       ...el,
@@ -14,6 +14,29 @@ const selectors = (el) => {
       isImage: true,
       referer: el.link,
       selector: "picture img",
+    },
+    tags: {
+      ...el,
+      selector: "ul.tags li a",
+    },
+    project: {
+      title: "h1 a",
+      author: {
+        ...el,
+        selector: "h2 ul.comma-list li a",
+      },
+      language: {
+        ...el,
+        selector: "div.gallery-info table tbody tr td a",
+      },
+      type: {
+        ...el,
+        selector: "div.gallery-info table tbody tr td a",
+      },
+      series: {
+        ...el,
+        selector: "td ul.comma-list li a",
+      },
     },
   };
 };

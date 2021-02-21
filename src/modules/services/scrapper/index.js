@@ -17,10 +17,10 @@ class ScrapperService {
       `read main page start with url: ${this.state.currentPageUrl}`
     );
     try {
-      const mainPageData = await selectElementService.selectPageData(
+      const { content } = await selectElementService.selectPageContent(
         selectors({ link: this.state.currentPageUrl }).mainPage
       );
-      if (!mainPageData.length && this.retryIndex < 4) {
+      if (!content.length && this.retryIndex < 4) {
         setTimeout(() => {
           this.retryIndex++;
           this.readMainPage();
@@ -29,7 +29,7 @@ class ScrapperService {
         }, 2000);
         return;
       }
-      this.state.page.data = mainPageData;
+      this.state.page.data = content;
       this.retryIndex = 0;
       this.readSinglePageData();
     } catch (e) {
@@ -57,16 +57,24 @@ class ScrapperService {
 
   readSingleTitlePage = async ({ link, ...el }) => {
     logService.addToLog(`read single page start with url: ${appUrl}${link}`);
-    const data = await selectElementService.selectPageData(
-      selectors({ link: `${appUrl}${link}`, ...el }).singleTitle
+    const { content } = await selectElementService.selectPageContent(
+      selectors({
+        link: `${appUrl}${link}`,
+        hasToScrapProjectData: true,
+        ...el,
+      }).singleTitle
     );
-    return Array.isArray(data) ? (isInTestMode ? [data[0]] : data) : null;
+    return Array.isArray(content)
+      ? isInTestMode
+        ? [content[0]]
+        : content
+      : null;
   };
 
   readGalleryPages = async (album) => {
     logService.addToLog(`read gallery pages start`);
-    const result = await selectElementService.selectPageDataForDownload(album);
-    await downloadService.handleImagesList(result);
+    const content = await selectElementService.selectPageDataForDownload(album);
+    await downloadService.handleImagesList(content);
     this.moveToNextTitle();
   };
 

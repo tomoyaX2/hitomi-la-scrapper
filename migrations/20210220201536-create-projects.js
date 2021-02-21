@@ -10,16 +10,19 @@ module.exports = {
       title: {
         type: Sequelize.STRING,
       },
-      type: {
-        type: Sequelize.STRING,
-      },
-      language: {
-        type: Sequelize.STRING,
-      },
-      author: {
-        type: Sequelize.STRING,
+      type_id: {
+        type: Sequelize.UUID,
       },
       album_id: {
+        type: Sequelize.UUID,
+      },
+      language_id: {
+        type: Sequelize.UUID,
+      },
+      author_id: {
+        type: Sequelize.UUID,
+      },
+      series_id: {
         type: Sequelize.UUID,
       },
       createdAt: {

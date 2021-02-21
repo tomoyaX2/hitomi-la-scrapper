@@ -4,6 +4,9 @@ const nightmare = Nightmare({ show: true });
 const { appUrl } = require("../../../utils/constants.js");
 const { selectors } = require("../../../utils/selectors.js");
 const { logService } = require("../log/index.js");
+const { projectService } = require("../project/index.js");
+const { buildProjectDepsService } = require("../project/buildProjectDeps.js");
+const { tagsService } = require("../tags/index.js");
 
 class SelectElementService {
   readPageBody = async (url) => {
@@ -39,25 +42,40 @@ class SelectElementService {
     return isImage ? data[0] : data;
   };
 
-  selectPageData = async ({ link, ...data }) => {
+  initiateTagsRead = async (parentData) => {
+    const tagsContent = this.selectLinkElementContent(
+      selectors({ parentData }).tags
+    );
+    return await tagsService.parseTagsData(tagsContent);
+  };
+
+  selectPageContent = async ({
+    link,
+    hasToScrapProjectData = false,
+    ...data
+  }) => {
     const parentData = await this.readPageBody(link);
     if (!parentData) {
       return null;
     }
-    const mainPageData = await this.selectLinkElementContent({
+    const content = await this.selectLinkElementContent({
       ...data,
       parentData,
     });
-    return mainPageData;
+    if (hasToScrapProjectData) {
+      const projectDeps = await buildProjectDepsService.initiate(parentData);
+      const projectId = await projectService.selectProjectContent(projectDeps);
+      await this.initiateTagsRead(parentData);
+    }
+    return { content };
   };
-
   selectPageDataForDownload = async (album) => {
     const result = [];
     for (let el of album) {
-      const galleryPage = await this.selectPageData(
+      const { content } = await this.selectPageContent(
         selectors({ ...el, link: `${appUrl}${el.link}` }).galleryPages
       );
-      result.push(galleryPage);
+      result.push(content);
     }
     return result;
   };
