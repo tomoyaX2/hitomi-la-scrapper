@@ -62,9 +62,13 @@ class SelectElementService {
       ...data,
       parentData,
     });
+    1;
     if (hasToScrapProjectData) {
       const projectDeps = await buildProjectDepsService.initiate(parentData);
-      const projectId = await projectService.selectProjectContent(projectDeps);
+      const projectId = await projectService.selectProjectContent({
+        ...projectDeps,
+        link,
+      });
       await this.initiateTagsRead(parentData, projectId);
     }
     return { content };

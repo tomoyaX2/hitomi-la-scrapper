@@ -4,6 +4,8 @@ const { downloadService } = require("../download/index.js");
 const { logService } = require("../log");
 const { selectors } = require("../../../utils/selectors");
 const { albumService } = require("../album");
+const { projectService } = require("../project");
+const { scrapperDbService } = require("../db/scrapperDb");
 
 class ScrapperService {
   retryIndex = 0;
@@ -11,6 +13,18 @@ class ScrapperService {
     currentIndex: 0,
     page: { data: [], index: 1 },
     currentPageUrl: appUrl,
+  };
+
+  initiateRetry = () => {
+    if (this.retryIndex < 4) {
+      setTimeout(() => {
+        this.retryIndex++;
+        this.readMainPage();
+        logService.addToLog(`retry happen`);
+      }, 2000);
+    } else {
+      this.retryIndex = 0;
+    }
   };
 
   readMainPage = async () => {
@@ -21,26 +35,19 @@ class ScrapperService {
       const { content } = await selectElementService.selectPageContent(
         selectors({ link: this.state.currentPageUrl }).mainPage
       );
-      if (!content.length && this.retryIndex < 4) {
-        setTimeout(() => {
-          this.retryIndex++;
-          this.readMainPage();
-          logService.addToLog(`retry scrap happen`);
-          console.log("retry scrap happen");
-        }, 2000);
+      if (!content.length) {
+        this.initiateRetry();
         return;
       }
-      this.state.page.data = content;
+      const newProjects = await scrapperDbService.filterAlreadyExistedProjects(
+        content
+      );
+      this.state.page.data = newProjects;
       this.retryIndex = 0;
       this.readSinglePageData();
     } catch (e) {
-      console.log("retry happen");
-      if (this.retryIndex < 4) {
-        this.readMainPage();
-        this.retryIndex++;
-      } else {
-        this.retryIndex = 0;
-      }
+      console.log("retry happen", e);
+      this.initiateRetry();
     }
   };
 

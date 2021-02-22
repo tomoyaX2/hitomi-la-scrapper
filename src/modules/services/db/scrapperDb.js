@@ -1,11 +1,11 @@
-const { Tag, Images } = require("../../../../models");
+const { Tag, Images, Projects } = require("../../../../models");
+const { appUrl } = require("../../../utils/constants");
 
 class ScrapperDbService {
   tags = [];
   currentProject = {};
 
   pushProjectData = async (Model, data) => {
-    console.log("data", data);
     const result = await Model.findOrCreate({
       where: { name: data.name },
       defaults: data,
@@ -30,9 +30,24 @@ class ScrapperDbService {
     this.tags = formatted;
   };
 
+  filterAlreadyExistedProjects = async (projects) => {
+    const result = [];
+    for (let project of projects) {
+      const dbProject = await Projects.findOne({
+        where: {
+          name: project.title,
+          scrappedFrom: `${appUrl}${project.link}`,
+        },
+      });
+      if (!dbProject) {
+        result.push(project);
+      }
+    }
+    return result;
+  };
+
   pushImage = async (image) => {
     await Images.create(image);
-    console.log("AFTER IMAGE CREATE");
   };
 
   prepeareServiceToScrap = async () => {

@@ -5,10 +5,10 @@ const { Type } = require("../../../../models");
 class TypesService {
   parseTypeData = async (type) => {
     const result = { id: uuid.v4(), name: type };
-    return await this.verifyExistedType(result);
+    return await this.pushType(result);
   };
 
-  verifyExistedType = async (type) => {
+  pushType = async (type) => {
     const result = await scrapperDbService.pushProjectData(Type, type);
     return result.id;
   };

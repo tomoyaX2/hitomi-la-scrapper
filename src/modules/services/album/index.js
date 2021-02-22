@@ -10,10 +10,10 @@ class AlbumService {
       name: scrapperDbService.currentProject.name,
     };
 
-    return await this.verifyExistedAlbum(albumData);
+    return await this.pushAlbum(albumData);
   };
 
-  verifyExistedAlbum = async (albumData) => {
+  pushAlbum = async (albumData) => {
     const result = await scrapperDbService.pushProjectData(Album, albumData);
     return result.id;
   };

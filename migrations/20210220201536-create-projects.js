@@ -19,6 +19,9 @@ module.exports = {
       language_id: {
         type: Sequelize.UUID,
       },
+      scrappedFrom: {
+        type: Sequelize.STRING,
+      },
       author_id: {
         type: Sequelize.UUID,
       },

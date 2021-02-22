@@ -5,10 +5,10 @@ const { Series } = require("../../../../models");
 class SeriesService {
   parseSeriesData = async (series) => {
     const result = { id: uuid.v4(), name: series };
-    return await this.verifyExistedSeries(result);
+    return await this.pushSeries(result);
   };
 
-  verifyExistedSeries = async (series) => {
+  pushSeries = async (series) => {
     const result = await scrapperDbService.pushProjectData(Series, series);
     return result.id;
   };

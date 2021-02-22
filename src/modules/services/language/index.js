@@ -5,10 +5,10 @@ const { Language } = require("../../../../models");
 class LanguageService {
   parseLanguageData = async (language) => {
     const result = { id: uuid.v4(), ...language };
-    return await this.verifyExistedLanguage(result);
+    return await this.pushLanguage(result);
   };
 
-  verifyExistedLanguage = async (language) => {
+  pushLanguage = async (language) => {
     const result = await scrapperDbService.pushProjectData(Language, language);
     return result.id;
   };

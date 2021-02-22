@@ -12,6 +12,7 @@ class ProjectService {
     authorId,
     languageId,
     typeId,
+    link,
   }) => {
     const $ = cherio.load(parentData);
     const titles = [];
@@ -26,12 +27,13 @@ class ProjectService {
       language_id: languageId,
       type_id: typeId,
       album_id: null,
+      scrappedFrom: link,
     };
     scrapperDbService.setCurrentProject(project);
-    return await this.filterExistedProject(project);
+    return await this.pushData(project);
   };
 
-  filterExistedProject = async (project) => {
+  pushData = async (project) => {
     const result = await scrapperDbService.pushProjectData(Projects, project);
     return result.id;
   };

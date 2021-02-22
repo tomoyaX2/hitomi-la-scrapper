@@ -42,6 +42,7 @@ module.exports = (sequelize, DataTypes) => {
       album_id: DataTypes.UUID,
       series_id: DataTypes.UUID,
       language_id: DataTypes.UUID,
+      scrappedFrom: DataTypes.STRING,
     },
     {
       sequelize,

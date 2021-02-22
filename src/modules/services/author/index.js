@@ -5,10 +5,10 @@ const { Author } = require("../../../../models");
 class AuthorService {
   parseAuthorData = async (author) => {
     const result = { id: uuid.v4(), name: author };
-    return await this.verifyExistedAuthor(result);
+    return await this.pushAuthor(result);
   };
 
-  verifyExistedAuthor = async (author) => {
+  pushAuthor = async (author) => {
     const result = await scrapperDbService.pushProjectData(Author, author);
     return result.id;
   };
