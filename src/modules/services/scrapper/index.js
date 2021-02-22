@@ -77,7 +77,7 @@ class ScrapperService {
   readGalleryPages = async (album) => {
     logService.addToLog(`read gallery pages start`);
     const content = await selectElementService.selectPageDataForDownload(album);
-    const albumData = albumService.initiateAlbumCreation();
+    const albumData = await albumService.initiateAlbumCreation();
     await downloadService.handleImagesList(content, albumData);
     this.moveToNextTitle();
   };

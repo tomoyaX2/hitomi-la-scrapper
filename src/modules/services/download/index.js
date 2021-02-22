@@ -34,13 +34,13 @@ class DownloadService {
     return path;
   };
 
-  handleImagesList = async (list, albumData) => {
+  handleImagesList = async (list, albumId) => {
     logService.addToLog(`handle images list start`);
     const downloadImagesIds = [];
-    this.createDefaultDir(albumData.id);
+    this.createDefaultDir(albumId);
     for (let image of list) {
       const id = uuid.v4();
-      const url = await this.initiateDownload({ ...image, id: albumData.id });
+      const url = await this.initiateDownload({ ...image, id: albumId });
       imagesService.saveImage({
         id,
         url,
@@ -50,7 +50,7 @@ class DownloadService {
       downloadImagesIds.push(id);
     }
     this.index = 0;
-    await dbService.createAlbumImageRelation(albumData.id, downloadImagesIds);
+    await dbService.createAlbumImageRelation(albumId, downloadImagesIds);
     logService.addToLog(`finished`);
     console.log("finished");
     // await this.compressImages(id);

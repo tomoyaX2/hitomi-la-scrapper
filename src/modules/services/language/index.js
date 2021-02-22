@@ -1,19 +1,16 @@
 const { scrapperDbService } = require("../db/scrapperDb.js");
 const uuid = require("uuid");
+const { Language } = require("../../../../models");
 
 class LanguageService {
-  parseLanguageData = (language) => {
+  parseLanguageData = async (language) => {
     const result = { id: uuid.v4(), ...language };
-    return this.verifyExistedLanguage(result);
+    return await this.verifyExistedLanguage(result);
   };
 
-  verifyExistedLanguage = (language) => {
-    const existed = scrapperDbService.languages.find((el) => el.abbr === language.abbr);
-    if (!existed) {
-      scrapperDbService.pushLanguage(language);
-      return language.id;
-    }
-    return existed.id;
+  verifyExistedLanguage = async (language) => {
+    const result = await scrapperDbService.pushProjectData(Language, language);
+    return result.id;
   };
 }
 

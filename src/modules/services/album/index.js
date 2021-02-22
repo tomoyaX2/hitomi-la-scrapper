@@ -1,27 +1,21 @@
 const uuid = require("uuid");
 const { scrapperDbService } = require("../db/scrapperDb");
+const { Album } = require("../../../../models");
 
 class AlbumService {
-  initiateAlbumCreation = () => {
+  initiateAlbumCreation = async () => {
     const id = uuid.v4();
     const albumData = {
       id,
-      name: scrapperDbService.currentProject.title,
-      project_id: scrapperDbService.currentProject.id,
+      name: scrapperDbService.currentProject.name,
     };
 
-    return this.verifyExistedAlbum(albumData);
+    return await this.verifyExistedAlbum(albumData);
   };
 
-  verifyExistedAlbum = (albumData) => {
-    const existed = scrapperDbService.albums.find(
-      (el) => el.title === albumData.name
-    );
-    if (!existed) {
-      scrapperDbService.pushAlbum(albumData);
-      return albumData;
-    }
-    return existed;
+  verifyExistedAlbum = async (albumData) => {
+    const result = await scrapperDbService.pushProjectData(Album, albumData);
+    return result.id;
   };
 }
 

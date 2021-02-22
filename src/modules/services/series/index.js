@@ -1,19 +1,16 @@
 const { scrapperDbService } = require("../db/scrapperDb.js");
 const uuid = require("uuid");
+const { Series } = require("../../../../models");
 
 class SeriesService {
-  parseSeriesData = (series) => {
+  parseSeriesData = async (series) => {
     const result = { id: uuid.v4(), name: series };
-    return this.verifyExistedSeries(result);
+    return await this.verifyExistedSeries(result);
   };
 
-  verifyExistedSeries = (series) => {
-    const existed = scrapperDbService.series.find((el) => el.name === series.name);
-    if (!existed) {
-      scrapperDbService.pushSeries(series);
-      return series.id;
-    }
-    return existed.id;
+  verifyExistedSeries = async (series) => {
+    const result = await scrapperDbService.pushProjectData(Series, series);
+    return result.id;
   };
 }
 

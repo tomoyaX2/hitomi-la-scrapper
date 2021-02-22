@@ -3,9 +3,10 @@ const { selectors } = require("../../../utils/selectors.js");
 const { logService } = require("../log/index.js");
 const uuid = require("uuid");
 const { scrapperDbService } = require("../db/scrapperDb.js");
+const { Projects } = require("../../../../models");
 
 class ProjectService {
-  selectProjectContent = ({
+  selectProjectContent = async ({
     parentData,
     seriesId,
     authorId,
@@ -19,7 +20,7 @@ class ProjectService {
     });
     const project = {
       id: uuid.v4(),
-      title: titles[0],
+      name: titles[0],
       author_id: authorId,
       series_id: seriesId,
       language_id: languageId,
@@ -27,18 +28,12 @@ class ProjectService {
       album_id: null,
     };
     scrapperDbService.setCurrentProject(project);
-    return this.filterExistedProject(project);
+    return await this.filterExistedProject(project);
   };
 
-  filterExistedProject = (project) => {
-    const existed = scrapperDbService.projects.find(
-      (el) => el.title === project.title
-    );
-    if (!existed) {
-      scrapperDbService.pushProject(project);
-      return project.id;
-    }
-    return existed.id;
+  filterExistedProject = async (project) => {
+    const result = await scrapperDbService.pushProjectData(Projects, project);
+    return result.id;
   };
 }
 

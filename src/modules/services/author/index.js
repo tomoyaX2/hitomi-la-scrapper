@@ -1,21 +1,16 @@
 const { scrapperDbService } = require("../db/scrapperDb.js");
 const uuid = require("uuid");
+const { Author } = require("../../../../models");
 
 class AuthorService {
-  parseAuthorData = (author) => {
+  parseAuthorData = async (author) => {
     const result = { id: uuid.v4(), name: author };
-    return this.verifyExistedAuthor(result);
+    return await this.verifyExistedAuthor(result);
   };
 
-  verifyExistedAuthor = (author) => {
-    const existed = scrapperDbService.authors.find(
-      (el) => el.name === author.name
-    );
-    if (!existed) {
-      scrapperDbService.pushAuthor(author);
-      return author.id;
-    }
-    return existed.id;
+  verifyExistedAuthor = async (author) => {
+    const result = await scrapperDbService.pushProjectData(Author, author);
+    return result.id;
   };
 }
 

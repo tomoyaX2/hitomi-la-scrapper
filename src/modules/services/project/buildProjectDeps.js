@@ -27,30 +27,29 @@ class BuildProjectDepsService {
     return isImage ? data[0] : data;
   };
 
-  initiateSeriesRead = (parentData) => {
+  initiateSeriesRead = async (parentData) => {
     const list = this.selectLinkElementContent(
       selectors({ parentData }).project.series
     );
     const series = list.find((el) => el.link.includes("series"));
     if (!!series) {
-      return seriesService.parseSeriesData(series.title);
+      return await seriesService.parseSeriesData(series.title);
     }
     return null;
   };
 
-  initiateAuthorRead = (parentData) => {
+  initiateAuthorRead = async (parentData) => {
     const list = this.selectLinkElementContent(
       selectors({ parentData }).project.author
     );
     const author = list.find((el) => el.link.includes("artist"));
-    console.log("AUTHOOOOOOR", author);
     if (!!author) {
-      return authorService.parseAuthorData(author.title);
+      return await authorService.parseAuthorData(author.title);
     }
     return null;
   };
 
-  initiateTypeRead = (parentData) => {
+  initiateTypeRead = async (parentData) => {
     const list = this.selectLinkElementContent(
       selectors({ parentData }).project.type
     );
@@ -59,12 +58,12 @@ class BuildProjectDepsService {
     );
     const validType = typeList.find((el) => type.title.includes(el));
     if (!!validType) {
-      return typesService.parseTypeData(validType);
+      return await typesService.parseTypeData(validType);
     }
     return null;
   };
 
-  initiateLanguageRead = (parentData) => {
+  initiateLanguageRead = async (parentData) => {
     const list = this.selectLinkElementContent(
       selectors({ parentData }).project.language
     );
@@ -74,17 +73,26 @@ class BuildProjectDepsService {
         name: languageItem.title,
         abbr: languageItem.link.split("-")[1].replace(".html", ""),
       };
-      return languageService.parseLanguageData(language);
+      return await languageService.parseLanguageData(language);
     }
     return null;
   };
 
   initiate = async (parentData) => {
-    const seriesId = this.initiateSeriesRead(parentData);
-    const authorId = this.initiateAuthorRead(parentData);
-    const languageId = this.initiateLanguageRead(parentData);
-    const typeId = this.initiateTypeRead(parentData);
-    return { seriesId, authorId, languageId, typeId, parentData };
+    const promises = [
+      await this.initiateSeriesRead(parentData),
+      await this.initiateAuthorRead(parentData),
+      await this.initiateLanguageRead(parentData),
+      await this.initiateTypeRead(parentData),
+    ];
+    const data = await Promise.all(promises);
+    return {
+      seriesId: data[0],
+      authorId: data[1],
+      languageId: data[2],
+      typeId: data[3],
+      parentData,
+    };
   };
 }
 

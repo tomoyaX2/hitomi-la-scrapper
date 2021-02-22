@@ -1,19 +1,16 @@
 const { scrapperDbService } = require("../db/scrapperDb.js");
 const uuid = require("uuid");
+const { Type } = require("../../../../models");
 
 class TypesService {
-  parseTypeData = (type) => {
+  parseTypeData = async (type) => {
     const result = { id: uuid.v4(), name: type };
-    return this.verifyExistedType(result);
+    return await this.verifyExistedType(result);
   };
 
-  verifyExistedType = (type) => {
-    const existed = scrapperDbService.types.find((el) => el.name === type.name);
-    if (!existed) {
-      scrapperDbService.pushType(type);
-      return type.id;
-    }
-    return existed.id;
+  verifyExistedType = async (type) => {
+    const result = await scrapperDbService.pushProjectData(Type, type);
+    return result.id;
   };
 }
 
