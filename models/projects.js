@@ -18,7 +18,6 @@ module.exports = (sequelize, DataTypes) => {
       });
       Projects.belongsTo(models.Album, {
         foreignKey: "album_id",
-        as: "album",
       });
       Projects.belongsTo(models.Series, {
         foreignKey: "series_id",

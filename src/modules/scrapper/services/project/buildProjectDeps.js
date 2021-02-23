@@ -1,11 +1,11 @@
-const { tagsService } = require("../tags/index.js");
-const { seriesService } = require("../series/index.js");
-const { authorService } = require("../author/index.js");
-const { languageService } = require("../language/index.js");
-const { typesService } = require("../type/index.js");
-const { selectors } = require("../../../utils/selectors.js");
+const { seriesService } = require("../series/index");
+const { authorService } = require("../author/index");
+const { languageService } = require("../language/index");
+const { typesService } = require("../type/index");
+const { selectors } = require("../../utils/selectors");
 const cherio = require("cheerio");
-const { typeList } = require("../../../utils/constants.js");
+const { typeList } = require("../../utils/constants");
+const { albumService } = require("../album");
 
 class BuildProjectDepsService {
   selectLinkElementContent = ({

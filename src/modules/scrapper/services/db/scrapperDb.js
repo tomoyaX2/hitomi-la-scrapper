@@ -1,5 +1,5 @@
-const { Tag, Images, Projects } = require("../../../../models");
-const { appUrl } = require("../../../utils/constants");
+const { Tag, Images, Projects } = require("../../../../../models");
+const { appUrl } = require("../../utils/constants");
 
 class ScrapperDbService {
   tags = [];
@@ -52,8 +52,7 @@ class ScrapperDbService {
 
   prepeareServiceToScrap = async () => {
     this.currentProject = {};
-    const promises = [this.selectTagsList()];
-    await Promise.all(promises);
+    await this.selectTagsList();
   };
 }
 

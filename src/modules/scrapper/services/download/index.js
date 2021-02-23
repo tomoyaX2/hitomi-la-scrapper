@@ -8,6 +8,7 @@ const axios = require("axios");
 const { logService } = require("../log");
 const { imagesService } = require("../images");
 const { dbService } = require("../db");
+const { scrapperDbService } = require("../db/scrapperDb");
 
 class DownloadService {
   index = 0;
@@ -34,7 +35,8 @@ class DownloadService {
     return path;
   };
 
-  handleImagesList = async (list, albumId) => {
+  handleImagesList = async (list) => {
+    const albumId = scrapperDbService.currentProject.album_id;
     logService.addToLog(`handle images list start`);
     const downloadImagesIds = [];
     this.createDefaultDir(albumId);

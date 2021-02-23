@@ -1,6 +1,6 @@
 const { scrapperDbService } = require("../db/scrapperDb.js");
 const uuid = require("uuid");
-const { Language } = require("../../../../models");
+const { Language } = require("../../../../../models");
 
 class LanguageService {
   parseLanguageData = async (language) => {

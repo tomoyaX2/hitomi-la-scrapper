@@ -1,4 +1,4 @@
-const { scrapperDbService } = require("../db/scrapperDb.js");
+const { Tag } = require("../../../../../models");
 const { dbService } = require("../db");
 const uuid = require("uuid");
 
@@ -9,22 +9,23 @@ class TagsService {
       name: title.replace("♂", "").replace("♀", "").replace(" ", ""),
       type: title.includes("♂") ? "male" : "female",
     }));
-    const filtered = this.filterExistedTags(parsedTags);
-    const tagIds = scrapperDbService.tags.map((el) => el.id);
+    const filtered = await this.filterExistedTags(parsedTags);
+    const tagIds = filtered.map((el) => el.id);
     await dbService.createProjectTagRelation(projectId, tagIds);
     return filtered;
   };
 
-  filterExistedTags = (tags) => {
-    const filtered = tags.filter(
-      (newTag) =>
-        !scrapperDbService.tags.some(
-          (existed) =>
-            newTag.name === existed.name && newTag.type === existed.type
-        )
-    );
-    scrapperDbService.pushTags(filtered);
-    return filtered;
+  filterExistedTags = async (tags) => {
+    const result = [];
+    for (let tag of tags) {
+      const dbTag = await Tag.findOne({
+        where: { name: tag.name, type: tag.type },
+      });
+      if (!dbTag) {
+        result.push(tag);
+      }
+    }
+    return result;
   };
 }
 

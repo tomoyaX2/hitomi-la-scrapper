@@ -1,13 +1,13 @@
 const uuid = require("uuid");
 const { scrapperDbService } = require("../db/scrapperDb");
-const { Album } = require("../../../../models");
+const { Album } = require("../../../../../models");
 
 class AlbumService {
-  initiateAlbumCreation = async () => {
+  initiateAlbumCreation = async (name) => {
     const id = uuid.v4();
     const albumData = {
       id,
-      name: scrapperDbService.currentProject.name,
+      name: name,
     };
 
     return await this.pushAlbum(albumData);

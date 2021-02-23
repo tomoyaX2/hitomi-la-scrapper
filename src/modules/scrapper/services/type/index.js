@@ -1,6 +1,6 @@
 const { scrapperDbService } = require("../db/scrapperDb.js");
 const uuid = require("uuid");
-const { Type } = require("../../../../models");
+const { Type } = require("../../../../../models");
 
 class TypesService {
   parseTypeData = async (type) => {

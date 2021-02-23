@@ -1,14 +1,18 @@
 const cherio = require("cheerio");
 const Nightmare = require("nightmare");
 const nightmare = Nightmare({ show: true });
-const { appUrl } = require("../../../utils/constants.js");
-const { selectors } = require("../../../utils/selectors.js");
+const { appUrl } = require("../../utils/constants.js");
+const { selectors } = require("../../utils/selectors.js");
 const { logService } = require("../log/index.js");
 const { projectService } = require("../project/index.js");
 const { buildProjectDepsService } = require("../project/buildProjectDeps.js");
 const { tagsService } = require("../tags/index.js");
 
 class SelectElementService {
+  stopScrapper = async () => {
+    await nightmare.end();
+  };
+
   readPageBody = async (url) => {
     try {
       const parentData = await nightmare

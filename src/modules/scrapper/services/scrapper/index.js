@@ -1,10 +1,9 @@
 const { selectElementService } = require("../selectElement");
-const { appUrl, isInTestMode } = require("../../../utils/constants.js");
+const { appUrl, isInTestMode } = require("../../utils/constants.js");
 const { downloadService } = require("../download/index.js");
 const { logService } = require("../log");
-const { selectors } = require("../../../utils/selectors");
+const { selectors } = require("../../utils/selectors");
 const { albumService } = require("../album");
-const { projectService } = require("../project");
 const { scrapperDbService } = require("../db/scrapperDb");
 
 class ScrapperService {
@@ -39,11 +38,15 @@ class ScrapperService {
         this.initiateRetry();
         return;
       }
+
       const newProjects = await scrapperDbService.filterAlreadyExistedProjects(
         content
       );
       this.state.page.data = newProjects;
       this.retryIndex = 0;
+      if (!newProjects.length) {
+        return this.moveToNextTitle();
+      }
       this.readSinglePageData();
     } catch (e) {
       console.log("retry happen", e);
@@ -84,8 +87,7 @@ class ScrapperService {
   readGalleryPages = async (album) => {
     logService.addToLog(`read gallery pages start`);
     const content = await selectElementService.selectPageDataForDownload(album);
-    const albumData = await albumService.initiateAlbumCreation();
-    await downloadService.handleImagesList(content, albumData);
+    await downloadService.handleImagesList(content);
     this.moveToNextTitle();
   };
 

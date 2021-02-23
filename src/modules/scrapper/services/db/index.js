@@ -5,7 +5,7 @@ const {
   Album,
   Images,
   AlbumImages,
-} = require("../../../../models");
+} = require("../../../../../models");
 
 class DbService {
   createProjectTagRelation = async (ProjectId, tagIds) => {
