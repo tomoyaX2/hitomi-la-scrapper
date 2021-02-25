@@ -9,8 +9,9 @@ class ScrapperDbService {
     const result = await Model.findOrCreate({
       where: { name: data.name },
       defaults: data,
+      raw: true,
     });
-    return JSON.parse(JSON.stringify(result[0]));
+    return result[0];
   };
 
   setCurrentProject = (project) => {
@@ -25,9 +26,8 @@ class ScrapperDbService {
   };
 
   selectTagsList = async () => {
-    const dbData = await Tag.findAll();
-    const formatted = JSON.parse(JSON.stringify(dbData));
-    this.tags = formatted;
+    const dbData = await Tag.findAll({ raw: true });
+    this.tags = dbData;
   };
 
   filterAlreadyExistedProjects = async (projects) => {

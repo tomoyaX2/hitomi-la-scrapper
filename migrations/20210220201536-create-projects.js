@@ -28,6 +28,9 @@ module.exports = {
       series_id: {
         type: Sequelize.UUID,
       },
+      user_id: {
+        type: Sequelize.UUID
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

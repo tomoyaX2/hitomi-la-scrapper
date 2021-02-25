@@ -31,6 +31,9 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "type_id",
         as: "type",
       });
+      Projects.belongsTo(models.User, {
+        foreignKey: "userId",
+      });
     }
   }
   Projects.init(
@@ -42,6 +45,7 @@ module.exports = (sequelize, DataTypes) => {
       series_id: DataTypes.UUID,
       language_id: DataTypes.UUID,
       scrappedFrom: DataTypes.STRING,
+      userId: DataTypes.UUID,
     },
     {
       sequelize,
