@@ -1,13 +1,17 @@
+import { sequelize } from "./src/models";
 const express = require("express");
-const { sequelize } = require("./models");
+import { scrapperRouter } from "./src/modules/scrapper/routes";
+import { authRouter } from "./src/modules/auth/routes";
+import { projectsRouter } from "./src/modules/projects/routes";
+import { usersRouter } from "./src/modules/users/routes";
 
 const app = express();
 const port = 3000;
 
-app.use("/scrapper", require("./src/modules/scrapper/routes"));
-app.use("/projects", require("./src/modules/projects/routes"));
-app.use("/users", require("./src/modules/users/routes"));
-app.use("/auth", require("./src/modules/auth/routes"));
+app.use("/scrapper", scrapperRouter);
+app.use("/projects", projectsRouter);
+app.use("/users", usersRouter);
+app.use("/auth", authRouter);
 
 app.use(express.static(__dirname + "/public"));
 

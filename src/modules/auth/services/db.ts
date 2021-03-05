@@ -1,10 +1,12 @@
 import { RegistrationModels, TotalUserFields, UserErrors } from "../types";
-import { Credentials, User } from "../../../../models";
+import { Credentials, User } from "../../../models";
 import uuid from "uuid";
 import crypto from "crypto";
-import { UserFields } from "models/user";
+import { UserFields } from "../../../models/user";
 
 class DbAuthService {
+  constructor() {}
+
   hashPassword = (password: string) => {
     const sha256 = crypto.createHash("sha256");
     const hash = sha256.update(password).digest("base64");
@@ -125,6 +127,4 @@ class DbAuthService {
   handleLogin = async (userData) => {};
 }
 
-const dbAuthService = new DbAuthService();
-
-module.exports = { dbAuthService };
+export { DbAuthService };
