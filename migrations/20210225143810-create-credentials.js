@@ -13,7 +13,7 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
-      userId: {
+      user_id: {
         type: Sequelize.UUID
       },
       createdAt: {

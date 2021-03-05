@@ -1,9 +1,11 @@
-const { User, Credentials } = require("../../../../models");
-const uuid = require("uuid");
-const crypto = require("crypto");
+import { RegistrationModels, TotalUserFields, UserErrors } from "../types";
+import { Credentials, User } from "../../../../models";
+import uuid from "uuid";
+import crypto from "crypto";
+import { UserFields } from "models/user";
 
 class DbAuthService {
-  hashPassword = (password) => {
+  hashPassword = (password: string) => {
     const sha256 = crypto.createHash("sha256");
     const hash = sha256.update(password).digest("base64");
     return hash;
@@ -13,7 +15,7 @@ class DbAuthService {
     return crypto.randomBytes(30).toString("hex");
   };
 
-  searchForUserByLogin = async (login) => {
+  searchForUserByLogin = async (login: string) => {
     try {
       const result = await Credentials.findOne({
         where: { login },
@@ -29,17 +31,17 @@ class DbAuthService {
     }
   };
 
-  setupToken = async (userId) => {
+  setupToken = async (user_id: string) => {
     const token = this.createToken();
-    await User.update({ token }, { where: { id: userId } });
+    await User.update({ token }, { where: { id: user_id } });
   };
 
-  searchForExistedLogin = async (login) => {
+  searchForExistedLogin = async (login: string) => {
     const isExistsName = await Credentials.findOne({ where: { login } });
     return !!isExistsName;
   };
 
-  searchForExistedEmail = async (email) => {
+  searchForExistedEmail = async (email: string) => {
     const isExistsEmail = await User.findOne({ where: { email } });
     return !!isExistsEmail;
   };
@@ -48,7 +50,7 @@ class DbAuthService {
     isExistsEmail,
     isExistsLogin,
   }) => {
-    const errors = {};
+    let errors = {} as UserErrors;
     let isValid = true;
     if (isExistsEmail) {
       isValid = false;
@@ -64,7 +66,7 @@ class DbAuthService {
     return errors;
   };
 
-  searchForExistedCredentials = async (user) => {
+  searchForExistedCredentials = async (user: TotalUserFields) => {
     const searchLoginResult = this.searchForExistedLogin(user.login);
     const searchEmailResult = this.searchForExistedEmail(user.email);
     const promises = [searchLoginResult, searchEmailResult];
@@ -78,14 +80,20 @@ class DbAuthService {
     return errors;
   };
 
-  generateUserCredentials = async ({ modelToUser, modelToCredentials }) => {
+  generateUserCredentials = async ({
+    modelToUser,
+    modelToCredentials,
+  }: RegistrationModels) => {
     try {
-      const dbUser = await User.create({ ...modelToUser, id: uuid.v4() });
-      const user = dbUser.toJSON();
+      const dbUser = await User.create({
+        ...modelToUser,
+        id: uuid.v4(),
+      });
+      const user = dbUser.toJSON() as UserFields;
       console.log(user, "user");
       const dbCredentials = await Credentials.create({
         ...modelToCredentials,
-        userId: user.id,
+        user_id: user.id,
         id: uuid.v4(),
       });
       console.log(dbCredentials.toJSON(), "credentials");
@@ -96,7 +104,10 @@ class DbAuthService {
     }
   };
 
-  handleRegistration = async ({ modelToUser, modelToCredentials }) => {
+  handleRegistration = async ({
+    modelToUser,
+    modelToCredentials,
+  }: RegistrationModels) => {
     const result = await this.searchForExistedCredentials({
       login: modelToCredentials.login,
       email: modelToUser.email,
