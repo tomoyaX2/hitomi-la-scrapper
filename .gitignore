@@ -1,5 +1,17 @@
-/node_modules
-/downloads
-/log
-/public
-.yarn.lock
+# dependencies
+/client/node_modules
+/scrapper/node_modules
+/scrapper/downloads
+/scrapper/log
+/scrapper/public
+/scrapper/yarn.lock
+
+# testing
+/client/coverage
+
+# production
+/client/build
+
+/clientnpm-debug.log*
+/clientyarn-debug.log*
+/clientyarn-error.log*
