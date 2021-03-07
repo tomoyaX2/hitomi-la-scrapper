@@ -87,16 +87,12 @@ class DbAuthService {
     modelToCredentials,
   }: RegistrationModels) => {
     try {
-      const dbUser = await User.create({
-        ...modelToUser,
-        id: uuid.v4(),
-      });
+      const dbUser = await User.create(modelToUser);
       const user = dbUser.toJSON() as UserFields;
       console.log(user, "user");
       const dbCredentials = await Credentials.create({
         ...modelToCredentials,
         user_id: user.id,
-        id: uuid.v4(),
       });
       console.log(dbCredentials.toJSON(), "credentials");
       return { isSuccess: true, errors: null };

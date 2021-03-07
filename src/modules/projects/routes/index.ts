@@ -1,6 +1,5 @@
 const express = require("express");
-const { paramsService } = require("../services/params");
-const { getProjectsDataService } = require("../services/getProjectsData");
+const { paramsService, getProjectsDataService } = require("../services");
 const projectsRouter = express.Router();
 
 projectsRouter.get("/", async (req, res) => {

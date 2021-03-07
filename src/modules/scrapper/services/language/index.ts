@@ -4,8 +4,7 @@ import uuid from "uuid";
 class LanguageService {
   constructor(public scrapperDbService) {}
   parseLanguageData = async (language) => {
-    const result = { id: uuid.v4(), ...language };
-    return await this.pushLanguage(result);
+    return await this.pushLanguage(language);
   };
 
   pushLanguage = async (language) => {

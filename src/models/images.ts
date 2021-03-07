@@ -2,7 +2,7 @@ import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 import { Album } from ".";
 
 export interface ImageFields {
-  id: string;
+  id?: string;
   url: string;
   remoteUrl: string;
   referer: string;

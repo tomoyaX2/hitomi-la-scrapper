@@ -3,9 +3,8 @@ import uuid from "uuid";
 
 class TypesService {
   constructor(public scrapperDbService) {}
-  parseTypeData = async (type) => {
-    const result = { id: uuid.v4(), name: type };
-    return await this.pushType(result);
+  parseTypeData = async (name) => {
+    return await this.pushType({ name });
   };
 
   pushType = async (type) => {

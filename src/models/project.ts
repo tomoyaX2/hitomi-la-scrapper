@@ -1,7 +1,7 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 
 export interface ProjectFields {
-  id: string;
+  id?: string;
   name: string;
   type_id: string;
   author_id: string;

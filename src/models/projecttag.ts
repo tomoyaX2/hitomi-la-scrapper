@@ -1,7 +1,7 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 
 export interface ProjectTagFields {
-  id: string;
+  id?: string;
   ProjectId: string;
   TagId: string;
 }

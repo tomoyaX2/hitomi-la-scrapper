@@ -1,10 +1,9 @@
 import { Author } from "../../../../models";
-import uuid from "uuid";
 
 class AuthorService {
   constructor(public scrapperDbService) {}
   parseAuthorData = async (author) => {
-    const result = { id: uuid.v4(), name: author };
+    const result = { name: author };
     return await this.pushAuthor(result);
   };
 

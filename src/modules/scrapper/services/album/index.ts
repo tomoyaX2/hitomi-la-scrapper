@@ -3,10 +3,8 @@ import uuid from "uuid";
 class AlbumService {
   constructor(public scrapperDbService) {}
   initiateAlbumCreation = async (name) => {
-    const id = uuid.v4();
     const albumData = {
-      id,
-      name: name,
+      name,
     };
 
     return await this.pushAlbum(albumData);

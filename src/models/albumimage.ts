@@ -1,7 +1,7 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 
 export interface AlbumImageFields {
-  id: string;
+  id?: string;
   ImageId: string;
   AlbumId: string;
 }

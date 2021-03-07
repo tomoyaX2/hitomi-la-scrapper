@@ -1,7 +1,7 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 
 export interface CredentialsFields {
-  id: string;
+  id?: string;
   login: string;
   password: string;
   user_id: string;

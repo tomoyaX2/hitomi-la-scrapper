@@ -1,8 +1,6 @@
 import fs from "fs";
 const dir = "./public/downloads";
-import uuid from "uuid";
-import imagemin from "imagemin";
-import imageminMozjpeg from "imagemin-mozjpeg";
+import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 
 class DownloadService {
@@ -42,7 +40,7 @@ class DownloadService {
     const downloadImagesIds = [];
     this.createDefaultDir(albumId);
     for (let image of list) {
-      const id = uuid.v4();
+      const id = uuidv4();
       const url = await this.initiateDownload({ ...image, id: albumId });
       this.imagesService.saveImage({
         id,
@@ -56,26 +54,6 @@ class DownloadService {
     await this.dbService.createAlbumImageRelation(albumId, downloadImagesIds);
     this.logService.addToLog(`finished`);
     console.log("finished");
-    // await this.compressImages(id);
-    // await this.decompressImages(id);
-  };
-
-  decompressImages = async (id) => {
-    try {
-      await imagemin([`downloads/compressed/${id}/*.jpg`], {
-        destination: `downloads/decompressed/${id}`,
-        plugins: [imageminMozjpeg({ quality: 100, revert: true })],
-      });
-    } catch (e) {}
-  };
-
-  compressImages = async (id) => {
-    try {
-      await imagemin([`downloads/${id}/*.jpg`], {
-        destination: `downloads/compressed/${id}`,
-        plugins: [imageminMozjpeg({ quality: 50 })],
-      });
-    } catch (e) {}
   };
 
   clearDownloads = () => {

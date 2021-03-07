@@ -20,7 +20,6 @@ class ProjectService {
     });
     const albumId = await this.albumService.initiateAlbumCreation(titles[0]);
     const project = {
-      id: uuid.v4(),
       name: titles[0],
       author_id: authorId,
       series_id: seriesId,

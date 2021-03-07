@@ -1,4 +1,14 @@
-const { Project } = require("../../../../models");
+const {
+  Project,
+  Album,
+  User,
+  Image,
+  Type,
+  Author,
+  Language,
+  Series,
+  Tag,
+} = require("../../../../models");
 
 class GetProjectsDataService {
   constructor(public paramsService) {}
@@ -7,7 +17,15 @@ class GetProjectsDataService {
       limit: this.paramsService.params.limit,
       offset: this.paramsService.params.offset,
       order: [this.paramsService.params.order],
-      raw: true,
+      include: [
+        { model: Album, include: Image },
+        "user",
+        "type",
+        "author",
+        "language",
+        "series",
+        Tag,
+      ],
     });
     return dbData;
   };

@@ -46,7 +46,7 @@ class ScrapperDbService {
   };
 
   pushImage = async (image) => {
-    await Image.create(image);
+   return await Image.create(image);
   };
 
   prepeareServiceToScrap = async () => {

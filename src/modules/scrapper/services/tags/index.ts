@@ -4,7 +4,6 @@ class TagsService {
   constructor(public dbService) {}
   parseTagsData = async (tags, projectId) => {
     const parsedTags = tags.map(({ title }) => ({
-      id: uuid.v4(),
       name: title.replace("♂", "").replace("♀", "").replace(" ", ""),
       type: title.includes("♂") ? "male" : "female",
     }));

@@ -1,7 +1,7 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 
 export interface UserFields {
-  id: string;
+  id?: string;
   name: string;
   email: string;
   token?: string;

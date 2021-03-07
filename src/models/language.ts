@@ -1,7 +1,7 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 
 export interface LanguageFields {
-  id: string;
+  id?: string;
   name: string;
   abbr: string;
 }

@@ -70,6 +70,7 @@ Project.belongsTo(Type, {
 });
 Project.belongsTo(User, {
   foreignKey: "user_id",
+  as: "user",
 });
 Image.belongsToMany(Album, {
   through: "AlbumImages",
