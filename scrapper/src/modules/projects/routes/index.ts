@@ -5,6 +5,7 @@ const projectsRouter = express.Router();
 projectsRouter.get("/", async (req, res) => {
   paramsService.parseRequestQuery(req.query);
   const projects = await getProjectsDataService.getAllProjects();
+  console.log(projects, "projects");
   res.send(projects);
 });
 

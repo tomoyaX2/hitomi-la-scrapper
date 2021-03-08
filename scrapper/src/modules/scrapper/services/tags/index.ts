@@ -1,5 +1,6 @@
 import { Tag } from "../../../../models";
 import uuid from "uuid";
+
 class TagsService {
   constructor(public dbService) {}
   parseTagsData = async (tags, projectId) => {
@@ -7,23 +8,26 @@ class TagsService {
       name: title.replace("♂", "").replace("♀", "").replace(" ", ""),
       type: title.includes("♂") ? "male" : "female",
     }));
-    const filtered = await this.filterExistedTags(parsedTags);
-    const tagIds = filtered.map((el) => el.id);
-    await this.dbService.createProjectTagRelation(projectId, tagIds);
-    return filtered;
+    const savedTags = await this.saveTags(parsedTags);
+    await this.dbService.createProjectTagRelation(projectId, savedTags);
+    return savedTags;
   };
 
-  filterExistedTags = async (tags) => {
+  saveTags = async (tags) => {
     const result = [];
     for (let tag of tags) {
-      const dbTag = await Tag.findOne({
+      const existed = await Tag.findOne({
         where: { name: tag.name, type: tag.type },
       });
-      if (!dbTag) {
-        result.push(tag);
+      if (!existed) {
+        const created = await Tag.create(tag);
+        result.push(created);
+      } else {
+        result.push(existed);
       }
     }
-    return result;
+    console.log(result, "result");
+    return result.map((el) => el.id);
   };
 }
 

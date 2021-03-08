@@ -52,6 +52,7 @@ class SelectElementService {
     const tagsContent = this.selectLinkElementContent(
       selectors({ parentData }).tags as any
     );
+    console.log(tagsContent, "TAGSCONTENT");
     return await this.tagsService.parseTagsData(tagsContent, projectId);
   };
 

@@ -1,4 +1,11 @@
-import { Album, AlbumImage, Image, Project, ProjectTag, Tag } from "../../../../models";
+import {
+  Album,
+  AlbumImage,
+  Image,
+  Project,
+  ProjectTag,
+  Tag,
+} from "../../../../models";
 
 class DbService {
   createProjectTagRelation = async (ProjectId, tagIds) => {

@@ -1,5 +1,5 @@
 class ParamsService {
-  params = { order: ["createdAt", "ASC"], limit: 1, offset: 0 }; //offset === page
+  params = { order: ["createdAt", "ASC"], limit: 100, offset: 0 }; //offset === page
 
   parseRequestQuery = (params) => {
     if (!params) {

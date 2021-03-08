@@ -27,6 +27,7 @@ class GetProjectsDataService {
         Tag,
       ],
     });
+    console.log(dbData, 'dbData')
     return dbData;
   };
 
