@@ -7,6 +7,7 @@ import { SignUpComponent } from "./SignUp.component";
 import { signUpValidationScema } from "./validation";
 
 const initialValues = {
+  login: "",
   name: "",
   email: "",
   password: "",
@@ -19,7 +20,6 @@ const SignUp: React.FC = () => {
     values: SignUpFormData,
     actions: FormikHelpers<SignUpFormData>
   ) => {
-    console.log({ values, actions });
     dispatch(signUp(values));
     actions.setSubmitting(false);
   };

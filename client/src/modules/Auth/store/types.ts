@@ -3,9 +3,10 @@ export type SignUpFormData = {
   name: string;
   password: string;
   passwordConfirm: string;
+  login: string;
 };
 
 export type LoginFormData = {
-  username: string;
+  login: string;
   password: string;
 };

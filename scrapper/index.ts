@@ -4,10 +4,12 @@ import { scrapperRouter } from "./src/modules/scrapper/routes";
 import { authRouter } from "./src/modules/auth/routes";
 import { mangaRouter } from "./src/modules/manga/routes";
 import { usersRouter } from "./src/modules/users/routes";
+import bodyParser from "body-parser";
 
 const app = express();
 const port = 8000;
 
+app.use(express.json());
 app.use("/scrapper", scrapperRouter);
 app.use("/manga", mangaRouter);
 app.use("/users", usersRouter);

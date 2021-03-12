@@ -5,6 +5,8 @@ export interface UserFields {
   name: string;
   email: string;
   token?: string;
+  code?: string;
+  isActive?: boolean;
 }
 
 export interface UserModel extends Model<UserFields>, UserFields {}
@@ -24,6 +26,8 @@ export const UserFactory = (sequelize: Sequelize): UserStatic => {
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     token: DataTypes.STRING,
+    isActive: { type: DataTypes.BOOLEAN, defaultValue: false },
+    code: DataTypes.STRING,
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,

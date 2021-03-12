@@ -2,6 +2,7 @@ import React from "react";
 import { InputProps } from "./types";
 import { useFormikContext } from "formik";
 import { LoginFormData, SignUpFormData } from "../../modules/Auth/store/types";
+import { VeririfcationFormProps } from "../../modules/Auth/Verification/types";
 
 const Input: React.FC<InputProps> = ({ label, name, placeholder = "" }) => {
   const {
@@ -10,7 +11,9 @@ const Input: React.FC<InputProps> = ({ label, name, placeholder = "" }) => {
     handleChange,
     touched,
     handleBlur,
-  } = useFormikContext<LoginFormData & SignUpFormData>();
+  } = useFormikContext<
+    LoginFormData & SignUpFormData & VeririfcationFormProps
+  >();
   return (
     <div className="flex flex-col  my-4 ">
       <span className="text-md pb-2">{label}</span>

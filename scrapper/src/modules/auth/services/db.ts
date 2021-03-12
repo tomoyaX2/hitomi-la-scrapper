@@ -93,9 +93,9 @@ class DbAuthService {
         ...modelToCredentials,
         user_id: user.id,
       });
-      return { isSuccess: true, errors: null };
+      return { isSuccess: true, errors: null, userId: user.id };
     } catch (errors) {
-      return { isSuccess: false, errors };
+      return { isSuccess: false, errors, userId: null };
     }
   };
 
@@ -115,6 +115,24 @@ class DbAuthService {
       return result;
     }
     return result;
+  };
+
+  updateUserWithCode = async (userId, code) => {
+    await User.update({ code }, { where: { id: userId } });
+  };
+
+  initiateUserActivation = async (code, userId) => {
+    const user = await User.findOne({ where: { id: userId } });
+    const isValidUser = !!user;
+    const isValidCode = user.code === code;
+    if (isValidUser && isValidCode) {
+      await User.update(
+        { code: null, isActive: true },
+        { where: { id: userId } }
+      );
+      return { isSuccess: true, errors: null };
+    }
+    return { isSuccess: false, errors: { isValidCode, isValidUser } };
   };
 
   handleLogin = async (userData) => {};

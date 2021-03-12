@@ -1,24 +1,43 @@
 const express = require("express");
-const { authService } = require("../services");
+import { authService, dbAuthService, verificationService } from "../services";
 const authRouter = express.Router();
 
-authRouter.get("/login", async (req, res) => {
+authRouter.post("/login", async (req, res) => {
   const data = { login: "test", password: "nagisa" };
   const result = await authService.initLogin(data);
   res.send(result);
 });
 
-authRouter.get("/signUp", async (req, res) => {
-  console.log(req, "request");
-  const data = {
-    name: "test",
-    email: "test@email.test",
-    login: "test",
-    password: "nagisa",
-  };
-  // const result = await authService.initRegistration(data);
-  // res.send(result);
-  res.send("200");
+authRouter.post("/verification", async (req, res) => {
+  const { code, userId } = req.body;
+  const result = await dbAuthService.initiateUserActivation(code, userId);
+  const status = result.isSuccess ? 200 : 400;
+  res.status(status).send(result);
+});
+
+authRouter.post("/signUp", async (req, res) => {
+  const { password, passwordConfirm, email, name, login } = req.body;
+  const isValidPasswords = authService.validateIncomingPasswords(
+    password,
+    passwordConfirm
+  );
+  if (!isValidPasswords) {
+    res.status(400).send({
+      isSuccess: false,
+      errors: { password: "Passwords doesn't match" },
+    });
+    return;
+  }
+  const result = await authService.initRegistration({
+    password,
+    email,
+    name,
+    login,
+  });
+  if (!!result.userId) {
+    await verificationService.initVeririfcation(email, result.userId);
+  }
+  res.send(result);
 });
 
 export { authRouter };

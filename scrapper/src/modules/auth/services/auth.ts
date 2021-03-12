@@ -33,6 +33,10 @@ class AuthService {
     });
     return result;
   };
+
+  validateIncomingPasswords = (password, passwordConfirm) => {
+    return password === passwordConfirm;
+  };
 }
 
 export { AuthService };

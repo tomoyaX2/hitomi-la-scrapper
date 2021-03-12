@@ -3,6 +3,10 @@ import { SignUpFormData } from "../store/types";
 
 const signUpValidationScema: Yup.SchemaOf<SignUpFormData> = Yup.object()
   .shape({
+    login: Yup.string()
+      .min(2, "Sorry, but this name is too short")
+      .max(300, "Sorry, but this name length is over the limit")
+      .required("Name is required"),
     name: Yup.string()
       .min(2, "Sorry, but this name is too short")
       .max(300, "Sorry, but this name length is over the limit")

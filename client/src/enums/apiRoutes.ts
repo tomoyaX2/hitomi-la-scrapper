@@ -1,7 +1,8 @@
 enum ApiRoutes {
   manga = "/manga",
-  login = "/login",
-  signUp = "/signUp",
+  login = "/auth/login",
+  signUp = "/auth/signUp",
+  verification = "/auth/verification",
 }
 
 export { ApiRoutes };

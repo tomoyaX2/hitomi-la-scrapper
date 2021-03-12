@@ -1,4 +1,4 @@
-import { LOGIN, SIGN_UP } from "./constants";
+import { LOGIN, SIGN_UP, VERIRIFCATION } from "./constants";
 import { LoginFormData, SignUpFormData } from "./types";
 
 export const login = (data: LoginFormData) => ({
@@ -25,4 +25,17 @@ export const signUpSuccess = () => ({
 
 export const signUpFailure = () => ({
   type: SIGN_UP.FAILURE,
+});
+
+export const verfication = (code: string, userId: string) => ({
+  type: VERIRIFCATION.INIT,
+  data: { code, userId },
+});
+
+export const verificationSuccess = () => ({
+  type: VERIRIFCATION.SUCCESS,
+});
+
+export const verificationFailure = () => ({
+  type: VERIRIFCATION.FAILURE,
 });

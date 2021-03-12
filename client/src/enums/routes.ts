@@ -6,6 +6,7 @@ enum Routes {
   games = "/games",
   game = "/game/:id",
   signUp = "/signUp",
+  verification = "/verification",
 }
 
 export { Routes };

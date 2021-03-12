@@ -10,15 +10,15 @@ const dynamicStylesConfig = (isOpened: boolean) => ({
   translateContent: isOpened
     ? "duration-1000 transform translate-x-60"
     : "duration-1000 transform translate-x-32",
-  chevronStyle: isOpened ? "justify-end px-8" : "items-center justify-end pr-4",
+  chevronStyle: isOpened ? "justify-end px-4" : "items-center justify-end pr-4",
   chevronRotate: isOpened ? "rotate-180" : "rotate 0",
   activeLinkStyle: (index: number, activeRoute: number) => {
     return activeRoute == index
-      ? `text-black bg-white py-6 text-xl ${
-          isOpened ? "px-8" : "flex justify-end pr-4"
+      ? `text-black bg-white py-4 text-xl cursor-pointer	 ${
+          isOpened ? "px-9" : "flex justify-end pr-4"
         }`
-      : `text-white py-6 text-xl ${
-          isOpened ? "px-8" : "flex justify-end pr-4"
+      : `text-white py-4 text-xl cursor-pointer ${
+          isOpened ? "px-9" : "flex justify-end pr-4"
         }`;
   },
 });

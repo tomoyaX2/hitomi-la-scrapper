@@ -4,4 +4,5 @@ export type ButtonProps = {
   disabled?: string;
   onClick?: () => void;
   disabledClassName?: string;
+  bordered?: boolean;
 };
