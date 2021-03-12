@@ -1,6 +1,6 @@
 const appUrl = "https://hitomi.la";
 
-const isInTestMode = true;
+const isInTestMode = false;
 
 const typeList = ["doujinshi", "manga", "artist", "game", "anime"];
 

@@ -7,8 +7,8 @@ import { selectors } from "../../utils/selectors";
 class SelectElementService {
   constructor(
     public tagsService,
-    public buildProjectDepsService,
-    public projectService,
+    public buildMangaDepsService,
+    public mangaService,
     public logService
   ) {}
   stopScrapper = async () => {
@@ -48,17 +48,16 @@ class SelectElementService {
     return isImage ? data[0] : data;
   };
 
-  initiateTagsRead = async (parentData, projectId) => {
+  initiateTagsRead = async (parentData, mangaId) => {
     const tagsContent = this.selectLinkElementContent(
       selectors({ parentData }).tags as any
     );
-    console.log(tagsContent, "TAGSCONTENT");
-    return await this.tagsService.parseTagsData(tagsContent, projectId);
+    return await this.tagsService.parseTagsData(tagsContent, mangaId);
   };
 
   selectPageContent = async ({
     link,
-    hasToScrapProjectData = false,
+    hasToScrapMangaData = false,
     ...data
   }) => {
     const parentData = await this.readPageBody(link);
@@ -70,15 +69,13 @@ class SelectElementService {
       parentData,
     } as any);
     1;
-    if (hasToScrapProjectData) {
-      const projectDeps = await this.buildProjectDepsService.initiate(
-        parentData
-      );
-      const projectId = await this.projectService.selectProjectContent({
-        ...projectDeps,
+    if (hasToScrapMangaData) {
+      const mangaDeps = await this.buildMangaDepsService.initiate(parentData);
+      const mangaId = await this.mangaService.selectMangaContent({
+        ...mangaDeps,
         link,
       });
-      await this.initiateTagsRead(parentData, projectId);
+      await this.initiateTagsRead(parentData, mangaId);
     }
     return { content };
   };

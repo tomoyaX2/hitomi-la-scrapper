@@ -1,6 +1,6 @@
 import fs from "fs";
 const dir = "./public/downloads";
-import { v4 as uuidv4 } from "uuid";
+import crypto from "crypto";
 import axios from "axios";
 
 class DownloadService {
@@ -35,12 +35,12 @@ class DownloadService {
   };
 
   handleImagesList = async (list) => {
-    const albumId = this.scrapperDbService.currentProject.album_id;
+    const albumId = this.scrapperDbService.currentManga.album_id;
     this.logService.addToLog(`handle images list start`);
     const downloadImagesIds = [];
     this.createDefaultDir(albumId);
     for (let image of list) {
-      const id = uuidv4();
+      const id = crypto.randomBytes(16).toString("hex");
       const url = await this.initiateDownload({ ...image, id: albumId });
       this.imagesService.saveImage({
         id,
@@ -53,7 +53,6 @@ class DownloadService {
     this.index = 0;
     await this.dbService.createAlbumImageRelation(albumId, downloadImagesIds);
     this.logService.addToLog(`finished`);
-    console.log("finished");
   };
 
   clearDownloads = () => {

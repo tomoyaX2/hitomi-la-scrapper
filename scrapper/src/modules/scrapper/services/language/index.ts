@@ -8,7 +8,7 @@ class LanguageService {
   };
 
   pushLanguage = async (language) => {
-    const result = await this.scrapperDbService.pushProjectData(
+    const result = await this.scrapperDbService.pushMangaData(
       Language,
       language
     );

@@ -1,16 +1,34 @@
 "use strict";
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("ProjectTags", {
+    await queryInterface.createTable("Manga", {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
       },
-      ProjectId: {
+      name: {
+        type: Sequelize.STRING,
+      },
+      type_id: {
         type: Sequelize.UUID,
       },
-      TagId: {
+      album_id: {
+        type: Sequelize.UUID,
+      },
+      language_id: {
+        type: Sequelize.UUID,
+      },
+      scrappedFrom: {
+        type: Sequelize.STRING,
+      },
+      author_id: {
+        type: Sequelize.UUID,
+      },
+      series_id: {
+        type: Sequelize.UUID,
+      },
+      user_id: {
         type: Sequelize.UUID,
       },
       createdAt: {
@@ -24,6 +42,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("ProjectTags");
+    await queryInterface.dropTable("manga");
   },
 };

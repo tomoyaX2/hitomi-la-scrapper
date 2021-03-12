@@ -8,7 +8,7 @@ class TypesService {
   };
 
   pushType = async (type) => {
-    const result = await this.scrapperDbService.pushProjectData(Type, type);
+    const result = await this.scrapperDbService.pushMangaData(Type, type);
     return result.id;
   };
 }

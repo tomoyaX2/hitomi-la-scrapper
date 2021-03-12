@@ -19,7 +19,7 @@ const selectors = (el = {} as any) => {
       ...el,
       selector: "ul.tags li a",
     },
-    project: {
+    manga: {
       title: "h1 a",
       author: {
         ...el,

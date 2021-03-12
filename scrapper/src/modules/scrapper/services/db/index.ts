@@ -2,15 +2,15 @@ import {
   Album,
   AlbumImage,
   Image,
-  Project,
-  ProjectTag,
+  Manga,
+  MangaTag,
   Tag,
 } from "../../../../models";
 
 class DbService {
-  createProjectTagRelation = async (ProjectId, tagIds) => {
-    const data = await Project.findOne({
-      where: { id: ProjectId },
+  createMangaTagRelation = async (MangaId, tagIds) => {
+    const data = await Manga.findOne({
+      where: { id: MangaId },
       include: Tag,
     });
     const existedTags = !!data ? data.Tags.map((el) => el.id) : [];
@@ -18,7 +18,7 @@ class DbService {
     for (let TagId of tagIds) {
       const isAlreadyAssign = existedTags.some((el) => el === TagId);
       if (!isAlreadyAssign) {
-        await ProjectTag.create({ ProjectId, TagId } as any);
+        await MangaTag.create({ MangaId, TagId } as any);
       }
     }
   };

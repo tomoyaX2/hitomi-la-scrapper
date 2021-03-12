@@ -2,9 +2,9 @@ import axios from "axios";
 import { loop, Cmd } from "redux-loop";
 import { ApiRoutes } from "../../../enums/apiRoutes";
 import {
-  GET_PROJECTS_LIST,
-  GET_PROJECTS_LIST_FAILURE,
-  GET_PROJECTS_LIST_SUCCESS,
+  GET_MANGA_LIST,
+  GET_MANGA_LIST_FAILURE,
+  GET_MANGA_LIST_SUCCESS,
 } from "./constants";
 
 type Item = {};
@@ -16,40 +16,36 @@ const mainInitialState = {
   perPage: 20,
 };
 
-const getProjectsList = () => {
+const getMangaList = () => {
   return {
-    type: GET_PROJECTS_LIST,
+    type: GET_MANGA_LIST,
   };
 };
 
-const getProjectsListSuccess = () => {
+const getMangaListSuccess = () => {
   return {
-    type: GET_PROJECTS_LIST_SUCCESS,
+    type: GET_MANGA_LIST_SUCCESS,
   };
 };
 
-const getProjectsListFailure = () => {
+const getMangaListFailure = () => {
   return {
-    type: GET_PROJECTS_LIST_FAILURE,
+    type: GET_MANGA_LIST_FAILURE,
   };
 };
 
-const getProjects = async () => {
-  console.log("22222");
-  const data = await axios.get(ApiRoutes.projects);
-  console.log(data, "data");
+const getManga = async () => {
+  const data = await axios.get(ApiRoutes.manga);
 };
 
 const mainReducer = (state = mainInitialState, action: any) => {
-  console.log("reducer");
   switch (action.type) {
-    case GET_PROJECTS_LIST: {
-      console.log("list");
+    case GET_MANGA_LIST: {
       return loop(
         { ...state },
-        Cmd.run(getProjects, {
-          successActionCreator: getProjectsListSuccess,
-          failActionCreator: getProjectsListFailure,
+        Cmd.run(getManga, {
+          successActionCreator: getMangaListSuccess,
+          failActionCreator: getMangaListFailure,
           args: [],
         })
       );
@@ -60,4 +56,4 @@ const mainReducer = (state = mainInitialState, action: any) => {
   }
 };
 
-export { getProjectsList, mainReducer, mainInitialState };
+export { getMangaList, mainReducer, mainInitialState };

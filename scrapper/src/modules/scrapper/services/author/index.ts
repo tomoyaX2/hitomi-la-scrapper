@@ -8,7 +8,7 @@ class AuthorService {
   };
 
   pushAuthor = async (author) => {
-    const result = await this.scrapperDbService.pushProjectData(Author, author);
+    const result = await this.scrapperDbService.pushMangaData(Author, author);
     return result.id;
   };
 }

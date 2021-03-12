@@ -11,7 +11,7 @@ class AlbumService {
   };
 
   pushAlbum = async (albumData) => {
-    const result = await this.scrapperDbService.pushProjectData(
+    const result = await this.scrapperDbService.pushMangaData(
       Album,
       albumData
     );

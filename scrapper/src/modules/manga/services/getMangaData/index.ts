@@ -1,19 +1,9 @@
-const {
-  Project,
-  Album,
-  User,
-  Image,
-  Type,
-  Author,
-  Language,
-  Series,
-  Tag,
-} = require("../../../../models");
+const { Manga, Album, Image, Tag } = require("../../../../models");
 
-class GetProjectsDataService {
+class GetMangaDataService {
   constructor(public paramsService) {}
-  getAllProjects = async () => {
-    const dbData = await Project.findAll({
+  getAllManga = async () => {
+    const dbData = await Manga.findAll({
       limit: this.paramsService.params.limit,
       offset: this.paramsService.params.offset,
       order: [this.paramsService.params.order],
@@ -27,14 +17,13 @@ class GetProjectsDataService {
         Tag,
       ],
     });
-    console.log(dbData, 'dbData')
     return dbData;
   };
 
-  getProject = async (id) => {
-    const dbData = await Project.findOne({ where: { id }, raw: true });
+  getManga = async (id) => {
+    const dbData = await Manga.findOne({ where: { id }, raw: true });
     return dbData;
   };
 }
 
-export { GetProjectsDataService };
+export { GetMangaDataService };

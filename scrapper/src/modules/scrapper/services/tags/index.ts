@@ -3,13 +3,13 @@ import uuid from "uuid";
 
 class TagsService {
   constructor(public dbService) {}
-  parseTagsData = async (tags, projectId) => {
+  parseTagsData = async (tags, mangaId) => {
     const parsedTags = tags.map(({ title }) => ({
       name: title.replace("♂", "").replace("♀", "").replace(" ", ""),
       type: title.includes("♂") ? "male" : "female",
     }));
     const savedTags = await this.saveTags(parsedTags);
-    await this.dbService.createProjectTagRelation(projectId, savedTags);
+    await this.dbService.createMangaTagRelation(mangaId, savedTags);
     return savedTags;
   };
 
@@ -26,7 +26,6 @@ class TagsService {
         result.push(existed);
       }
     }
-    console.log(result, "result");
     return result.map((el) => el.id);
   };
 }

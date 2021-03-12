@@ -1,5 +1,5 @@
 import fs from "fs";
-import uuid from "uuid";
+import crypto from "crypto";
 const dir = "./logs";
 
 class LogService {
@@ -22,8 +22,9 @@ class LogService {
 
   writeLog = () => {
     this.createLogDir();
+    const id = crypto.randomBytes(16).toString("hex");
     fs.writeFile(
-      `./logs/${uuid.v4()}.txt`,
+      `./logs/${id}.txt`, 
       JSON.stringify(this.currentLog),
       () => {
         this.currentLog = "";

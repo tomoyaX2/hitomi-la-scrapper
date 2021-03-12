@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "concurrently \"yarn --cwd scrapper start\" \"yarn --cwd client start\" "
+    "build:styles": "yarn --cwd client build:style",
+    "start": "concurrently  \"yarn --cwd scrapper start\" \"yarn --cwd client start\" ",
+    "migrate": "yarn --cwd scrapper sequelize db:migrate"
   },
   "keywords": [],
   "author": "",

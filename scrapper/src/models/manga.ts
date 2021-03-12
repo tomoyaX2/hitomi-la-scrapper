@@ -1,6 +1,6 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 
-export interface ProjectFields {
+export interface MangaFields {
   id?: string;
   name: string;
   type_id: string;
@@ -13,14 +13,14 @@ export interface ProjectFields {
   Tags: any[];
 }
 
-export interface ProjectModel extends Model<ProjectFields>, ProjectFields {}
+export interface MangaModel extends Model<MangaFields>, MangaFields {}
 
-export type ProjectStatic = typeof Model & {
-  new (values?: object, options?: BuildOptions): ProjectModel;
+export type MangaStatic = typeof Model & {
+  new (values?: object, options?: BuildOptions): MangaModel;
 };
 
-export const ProjectFactory = (sequelize: Sequelize): ProjectStatic => {
-  const Project = <ProjectStatic>sequelize.define("Project", {
+export const MangaFactory = (sequelize: Sequelize): MangaStatic => {
+  const Manga = <MangaStatic>sequelize.define("Manga", {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
@@ -47,5 +47,5 @@ export const ProjectFactory = (sequelize: Sequelize): ProjectStatic => {
     },
   });
 
-  return Project;
+  return Manga;
 };

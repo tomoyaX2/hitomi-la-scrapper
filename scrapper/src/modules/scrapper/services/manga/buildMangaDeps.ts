@@ -2,7 +2,7 @@ import cherio from "cheerio";
 import { selectors } from "../../utils/selectors";
 import { typeList } from "../../utils/constants";
 
-class BuildProjectDepsService {
+class BuildMangaDepsService {
   constructor(
     public seriesService,
     public authorService,
@@ -30,7 +30,7 @@ class BuildProjectDepsService {
 
   initiateSeriesRead = async (parentData) => {
     const list = this.selectLinkElementContent(
-      selectors({ parentData }).project.series
+      selectors({ parentData }).manga.series
     );
     const series = list.find((el) => el.link.includes("series"));
     if (!!series) {
@@ -41,7 +41,7 @@ class BuildProjectDepsService {
 
   initiateAuthorRead = async (parentData) => {
     const list = this.selectLinkElementContent(
-      selectors({ parentData }).project.author
+      selectors({ parentData }).manga.author
     );
     const author = list.find((el) => el.link.includes("artist"));
     if (!!author) {
@@ -52,7 +52,7 @@ class BuildProjectDepsService {
 
   initiateTypeRead = async (parentData) => {
     const list = this.selectLinkElementContent(
-      selectors({ parentData }).project.type
+      selectors({ parentData }).manga.type
     );
     const type = list.find((el) =>
       typeList.some((type) => el.title.includes(type))
@@ -66,7 +66,7 @@ class BuildProjectDepsService {
 
   initiateLanguageRead = async (parentData) => {
     const list = this.selectLinkElementContent(
-      selectors({ parentData }).project.language
+      selectors({ parentData }).manga.language
     );
     const languageItem = list.find((el) => el.link.includes("index"));
     if (!!languageItem) {
@@ -97,4 +97,4 @@ class BuildProjectDepsService {
   };
 }
 
-export { BuildProjectDepsService };
+export { BuildMangaDepsService };

@@ -89,15 +89,12 @@ class DbAuthService {
     try {
       const dbUser = await User.create(modelToUser);
       const user = dbUser.toJSON() as UserFields;
-      console.log(user, "user");
       const dbCredentials = await Credentials.create({
         ...modelToCredentials,
         user_id: user.id,
       });
-      console.log(dbCredentials.toJSON(), "credentials");
       return { isSuccess: true, errors: null };
     } catch (errors) {
-      console.log("catch works with error", errors);
       return { isSuccess: false, errors };
     }
   };

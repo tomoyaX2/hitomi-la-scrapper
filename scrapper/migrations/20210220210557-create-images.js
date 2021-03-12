@@ -7,7 +7,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.UUID,
       },
-      project_id: {
+      manga_id: {
         type: Sequelize.UUID,
       },
       url: {

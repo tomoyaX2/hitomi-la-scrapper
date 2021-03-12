@@ -1,28 +1,28 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 
-export interface ProjectTagFields {
+export interface MangaTagFields {
   id?: string;
-  ProjectId: string;
+  MangaId: string;
   TagId: string;
 }
 
-export interface ProjectTagModel
-  extends Model<ProjectTagFields>,
-    ProjectTagFields {}
+export interface MangaTagModel
+  extends Model<MangaTagFields>,
+    MangaTagFields {}
 
-export type ProjectTagStatic = typeof Model & {
-  new (values?: object, options?: BuildOptions): ProjectTagModel;
+export type MangaTagStatic = typeof Model & {
+  new (values?: object, options?: BuildOptions): MangaTagModel;
 };
 
-export const ProjectTagFactory = (sequelize: Sequelize): ProjectTagStatic => {
-  const ProjectTag = <ProjectTagStatic>sequelize.define("ProjectTag", {
+export const MangaTagFactory = (sequelize: Sequelize): MangaTagStatic => {
+  const MangaTag = <MangaTagStatic>sequelize.define("MangaTag", {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       unique: true,
     },
-    ProjectId: DataTypes.UUID,
+    MangaId: DataTypes.UUID,
     TagId: DataTypes.UUID,
     createdAt: {
       type: DataTypes.DATE,
@@ -36,5 +36,5 @@ export const ProjectTagFactory = (sequelize: Sequelize): ProjectTagStatic => {
     },
   });
 
-  return ProjectTag;
+  return MangaTag;
 };

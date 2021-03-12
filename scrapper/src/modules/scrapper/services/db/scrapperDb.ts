@@ -1,10 +1,10 @@
-import { Tag, Project, Image } from "../../../../models";
+import { Tag, Manga, Image } from "../../../../models";
 import { appUrl } from "../../utils/constants";
 class ScrapperDbService {
   tags = [];
-  currentProject = {};
+  currentManga = {};
 
-  pushProjectData = async (Model, data) => {
+  pushMangaData = async (Model, data) => {
     const result = await Model.findOrCreate({
       where: { name: data.name },
       defaults: data,
@@ -13,8 +13,8 @@ class ScrapperDbService {
     return result[0];
   };
 
-  setCurrentProject = (project) => {
-    this.currentProject = project;
+  setCurrentManga = (manga) => {
+    this.currentManga = manga;
   };
 
   pushTags = async (tags) => {
@@ -29,28 +29,28 @@ class ScrapperDbService {
     this.tags = dbData;
   };
 
-  filterAlreadyExistedProjects = async (projects) => {
+  filterAlreadyExistedMangas = async (mangas) => {
     const result = [];
-    for (let project of projects) {
-      const dbProject = await Project.findOne({
+    for (let manga of mangas) {
+      const dbManga = await Manga.findOne({
         where: {
-          name: project.title,
-          scrappedFrom: `${appUrl}${project.link}`,
+          name: manga.title,
+          scrappedFrom: `${appUrl}${manga.link}`,
         },
       });
-      if (!dbProject) {
-        result.push(project);
+      if (!dbManga) {
+        result.push(manga);
       }
     }
     return result;
   };
 
   pushImage = async (image) => {
-   return await Image.create(image);
+    return await Image.create(image);
   };
 
   prepeareServiceToScrap = async () => {
-    this.currentProject = {};
+    this.currentManga = {};
     await this.selectTagsList();
   };
 }

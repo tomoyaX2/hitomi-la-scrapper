@@ -6,8 +6,8 @@ import { DownloadService } from "./download";
 import { ImagesService } from "./images";
 import { LanguageService } from "./language";
 import { LogService } from "./log";
-import { ProjectService } from "./project";
-import { BuildProjectDepsService } from "./project/buildProjectDeps";
+import { MangaService } from "./manga";
+import { BuildMangaDepsService } from "./manga/buildMangaDeps";
 import { ScrapperService } from "./scrapper";
 import { SelectElementService } from "./selectElement";
 import { SeriesService } from "./series";
@@ -29,18 +29,18 @@ const downloadService = new DownloadService(
 const seriesService = new SeriesService(scrapperDbService);
 const languageService = new LanguageService(scrapperDbService);
 const typesService = new TypesService(scrapperDbService);
-const buildProjectDepsService = new BuildProjectDepsService(
+const buildMangaDepsService = new BuildMangaDepsService(
   seriesService,
   authorService,
   languageService,
   typesService
 );
-const projectService = new ProjectService(albumService, scrapperDbService);
+const mangaService = new MangaService(albumService, scrapperDbService);
 const tagsService = new TagsService(dbService);
 const selectElementService = new SelectElementService(
   tagsService,
-  buildProjectDepsService,
-  projectService,
+  buildMangaDepsService,
+  mangaService,
   logService
 );
 const scrapperService = new ScrapperService(
@@ -59,8 +59,8 @@ export {
   imagesService,
   languageService,
   logService,
-  buildProjectDepsService,
-  projectService,
+  buildMangaDepsService,
+  mangaService,
   scrapperService,
   selectElementService,
   seriesService,

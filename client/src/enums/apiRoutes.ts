@@ -1,5 +1,5 @@
 enum ApiRoutes {
-  projects = "/projects",
+  manga = "/manga",
 }
 
 export { ApiRoutes };

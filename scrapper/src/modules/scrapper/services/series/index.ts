@@ -8,7 +8,7 @@ class SeriesService {
   };
 
   pushSeries = async (series) => {
-    const result = await this.scrapperDbService.pushProjectData(Series, series);
+    const result = await this.scrapperDbService.pushMangaData(Series, series);
     return result.id;
   };
 }

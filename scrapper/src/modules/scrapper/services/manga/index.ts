@@ -1,11 +1,10 @@
 import cherio from "cheerio";
-import { Project } from "../../../../models";
-import uuid from "uuid";
+import { Manga } from "../../../../models";
 import { selectors } from "../../utils/selectors";
 
-class ProjectService {
+class MangaService {
   constructor(public albumService, public scrapperDbService) {}
-  selectProjectContent = async ({
+  selectMangaContent = async ({
     parentData,
     seriesId,
     authorId,
@@ -15,11 +14,11 @@ class ProjectService {
   }) => {
     const $ = cherio.load(parentData);
     const titles = [];
-    $(selectors().project.title).each((i, element) => {
+    $(selectors().manga.title).each((i, element) => {
       titles.push($(element).text());
     });
     const albumId = await this.albumService.initiateAlbumCreation(titles[0]);
-    const project = {
+    const manga = {
       name: titles[0],
       author_id: authorId,
       series_id: seriesId,
@@ -28,17 +27,14 @@ class ProjectService {
       album_id: albumId,
       scrappedFrom: link,
     };
-    this.scrapperDbService.setCurrentProject(project);
-    return await this.pushData(project);
+    this.scrapperDbService.setCurrentManga(manga);
+    return await this.pushData(manga);
   };
 
-  pushData = async (project) => {
-    const result = await this.scrapperDbService.pushProjectData(
-      Project,
-      project
-    );
+  pushData = async (manga) => {
+    const result = await this.scrapperDbService.pushMangaData(Manga, manga);
     return result.id;
   };
 }
 
-export { ProjectService };
+export { MangaService };

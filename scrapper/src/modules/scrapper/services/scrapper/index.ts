@@ -40,12 +40,12 @@ class ScrapperService {
         return;
       }
 
-      const newProjects = await this.scrapperDbService.filterAlreadyExistedProjects(
+      const newMangas = await this.scrapperDbService.filterAlreadyExistedMangas(
         content
       );
-      this.state.page.data = newProjects;
+      this.state.page.data = newMangas;
       this.retryIndex = 0;
-      if (!newProjects.length) {
+      if (!newMangas.length) {
         return this.moveToNextTitle();
       }
       this.readSinglePageData();
@@ -57,6 +57,7 @@ class ScrapperService {
 
   readSinglePageData = async () => {
     this.logService.addToLog(`read single page data start`);
+    console.log(this.state.page.data, "!!!!!!!", [this.state.currentIndex]);
     const { album } = await this.readSingleTitlePage(
       this.state.page.data[this.state.currentIndex]
     );
@@ -74,7 +75,7 @@ class ScrapperService {
     const { content } = await this.selectElementService.selectPageContent(
       selectors({
         link: `${appUrl}${link}`,
-        hasToScrapProjectData: true,
+        hasToScrapMangaData: true,
         ...el,
       }).singleTitle
     );
@@ -104,11 +105,6 @@ class ScrapperService {
   };
 
   moveToNextTitle = () => {
-    console.log(
-      this.state.currentIndex,
-      this.state.page.data.length - 1,
-      "current state"
-    );
     this.logService.addToLog(
       `move to next title initiate. currentIndex: ${JSON.stringify(
         this.state.currentIndex
