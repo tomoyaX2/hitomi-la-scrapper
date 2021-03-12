@@ -12,7 +12,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "concurrently": "^6.0.0"
+    "@types/yup": "^0.29.11",
+    "concurrently": "^6.0.0",
+    "formik": "^2.2.6",
+    "yup": "^0.32.9"
   },
   "devDependencies": {}
 }

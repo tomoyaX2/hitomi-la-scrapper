@@ -1,11 +1,9 @@
 import axios from "axios";
+import { AnyAction } from "redux";
 import { loop, Cmd } from "redux-loop";
 import { ApiRoutes } from "../../../enums/apiRoutes";
-import {
-  GET_MANGA_LIST,
-  GET_MANGA_LIST_FAILURE,
-  GET_MANGA_LIST_SUCCESS,
-} from "./constants";
+import { getMangaListFailure, getMangaListSuccess } from "./actions";
+import { GET_MANGA_LIST } from "./constants";
 
 type Item = {};
 
@@ -16,31 +14,13 @@ const mainInitialState = {
   perPage: 20,
 };
 
-const getMangaList = () => {
-  return {
-    type: GET_MANGA_LIST,
-  };
-};
-
-const getMangaListSuccess = () => {
-  return {
-    type: GET_MANGA_LIST_SUCCESS,
-  };
-};
-
-const getMangaListFailure = () => {
-  return {
-    type: GET_MANGA_LIST_FAILURE,
-  };
-};
-
 const getManga = async () => {
   const data = await axios.get(ApiRoutes.manga);
 };
 
-const mainReducer = (state = mainInitialState, action: any) => {
+const mainReducer = (state = mainInitialState, action: AnyAction) => {
   switch (action.type) {
-    case GET_MANGA_LIST: {
+    case GET_MANGA_LIST.INIT: {
       return loop(
         { ...state },
         Cmd.run(getManga, {
@@ -56,4 +36,4 @@ const mainReducer = (state = mainInitialState, action: any) => {
   }
 };
 
-export { getMangaList, mainReducer, mainInitialState };
+export { mainReducer, mainInitialState };

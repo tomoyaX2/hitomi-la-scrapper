@@ -1,0 +1,13 @@
+const SIGN_UP = {
+  INIT: "SIGN_UP",
+  SUCCESS: "SIGN_UP_SUCCESS",
+  FAILURE: "SIGN_UP_FAILURE",
+};
+
+const LOGIN = {
+  INIT: "LOGIN",
+  SUCCESS: "LOGIN_SUCCESS",
+  FAILURE: "LOGIN_FAILURE",
+};
+
+export { SIGN_UP, LOGIN };

@@ -4,9 +4,12 @@ import { Gamepad } from "../../icons/Gamepad";
 import { IconProps } from "../../icons/types";
 
 const dynamicStylesConfig = (isOpened: boolean) => ({
-  translate: isOpened
+  translateSidebar: isOpened
     ? "duration-1000 transform translate-x-0"
     : "duration-1000 transform -translate-x-28",
+  translateContent: isOpened
+    ? "duration-1000 transform translate-x-60"
+    : "duration-1000 transform translate-x-32",
   chevronStyle: isOpened ? "justify-end px-8" : "items-center justify-end pr-4",
   chevronRotate: isOpened ? "rotate-180" : "rotate 0",
   activeLinkStyle: (index: number, activeRoute: number) => {

@@ -1,7 +1,7 @@
 import React from "react";
 import MainComponent from "./Main.component";
 import { useDispatch } from "react-redux";
-import { getMangaList } from "./store";
+import { getMangaList } from "./store/actions";
 
 const Main: React.FC = () => {
   const dispatch = useDispatch();

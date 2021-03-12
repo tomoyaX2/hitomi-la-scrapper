@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js start
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add @types/formik
 
 PATH: 
   C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;D:\flutter\flutter-sdk\bin;C:\Program Files\Dart\dart-sdk\bin;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\Yarn\bin\;C:\Users\tomoya\AppData\Roaming\npm;C:\Users\tomoya\AppData\Local\Android\Sdk\platform-tools;C:\Program Files\dotnet\;C:\Program Files\Amazon\AWSCLI\bin\;C:\bin;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Users\tomoya\Downloads\ngrok-stable-windows-amd64;C:\Users\tomoya\AppData\Local\Programs\Python\Python37-32\Scripts\;C:\Users\tomoya\AppData\Local\Programs\Python\Python37-32\;C:\Users\tomoya\AppData\Local\Microsoft\WindowsApps;C:\Users\tomoya\AppData\Local\Programs\Microsoft VS Code\bin;D:\flutter\flutter-sdk\bin;C:\Users\tomoya\AppData\Local\Yarn\bin;C:\Users\tomoya\AppData\Roaming\npm;C:\Program Files\JetBrains\PyCharm 2020.2.2\bin;;C:\bin;C:\Users\tomoya\Downloads\ngrok-stable-windows-amd64;
@@ -14,12 +14,17 @@ Platform:
   win32 x64
 
 Trace: 
-  SyntaxError: D:\hitomi-la-scrapper\package.json: Unexpected token } in JSON at position 329
-      at JSON.parse (<anonymous>)
-      at C:\Program Files (x86)\Yarn\lib\cli.js:1625:59
-      at Generator.next (<anonymous>)
-      at step (C:\Program Files (x86)\Yarn\lib\cli.js:310:30)
-      at C:\Program Files (x86)\Yarn\lib\cli.js:321:13
+  Error: https://registry.yarnpkg.com/@types%2fformik: Not found
+      at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:66096:18)
+      at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:140748:22)
+      at Request.emit (events.js:223:5)
+      at Request.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141720:10)
+      at Request.emit (events.js:223:5)
+      at IncomingMessage.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141642:12)
+      at Object.onceWrapper (events.js:312:28)
+      at IncomingMessage.emit (events.js:228:7)
+      at endReadableNT (_stream_readable.js:1185:12)
+      at processTicksAndRejections (internal/process/task_queues.js:81:21)
 
 npm manifest: 
   {
@@ -28,7 +33,9 @@ npm manifest:
     "description": "",
     "main": "index.ts",
     "scripts": {
-      "start": "concurrently \"yarn --cwd scrapper start\" \"yarn --cwd client start\" "
+      "build:styles": "yarn --cwd client build:style",
+      "start": "concurrently  \"yarn --cwd scrapper start\" \"yarn --cwd client start\" ",
+      "migrate": "yarn --cwd scrapper sequelize db:migrate"
     },
     "keywords": [],
     "author": "",
@@ -36,7 +43,7 @@ npm manifest:
     "dependencies": {
       "concurrently": "^6.0.0"
     },
-    "devDependencies": {},
+    "devDependencies": {}
   }
 
 yarn manifest: 

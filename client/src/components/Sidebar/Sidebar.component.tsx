@@ -15,15 +15,18 @@ const NavbarComponent: React.FC = ({ children }) => {
   };
 
   const {
-    translate,
+    translateSidebar,
     chevronRotate,
     chevronStyle,
     activeLinkStyle,
+    translateContent,
   } = dynamicStylesConfig(isOpened);
 
   return (
-    <div className="flex">
-      <div className={`flex flex-col bg-black w-52 ${translate} py-4 h-screen`}>
+    <div className="flex w-full">
+      <div
+        className={`flex flex-col bg-black w-56 ${translateSidebar} py-4 h-screen absolute`}
+      >
         <div className={`flex w-full h-24 ${chevronStyle} `}>
           <ThreeArrowChevron
             fill="white"
@@ -44,7 +47,7 @@ const NavbarComponent: React.FC = ({ children }) => {
           </NavLink>
         ))}
       </div>
-      <div>{children}</div>
+      <div className={`pl-4 mt-20 ${translateContent}`}>{children}</div>
     </div>
   );
 };

@@ -5,6 +5,7 @@ enum Routes {
   gallery = "/manga/:id/gallery",
   games = "/games",
   game = "/game/:id",
+  signUp = "/signUp",
 }
 
 export { Routes };
