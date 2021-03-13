@@ -6,6 +6,7 @@
 /scrapper/public
 /scrapper/yarn.lock
 /scrapper/.env
+/client/src/tailwind.css
 node_modules
 # testing
 /client/coverage
