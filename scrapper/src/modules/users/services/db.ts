@@ -6,7 +6,6 @@ class DbUserService {
       where: { token },
       include: ["role"],
     });
-    console.log(user, "UUUUSSSEEEERRRR");
     if (!!user) {
       return { isSuccess: true, data: user, errors: null };
     }

@@ -45,7 +45,6 @@ const handleLogin = async (data: LoginFormData, dispatch: Cmd.Dispatch) => {
   try {
     const response = await axios.post(ApiRoutes.login, data);
     localStorageService.setToken(response.data.data.token);
-    axios.defaults.headers.common.Authorization = response.data.data.token;
     dispatch(getMe());
   } catch (e) {
     notificationService.notify({

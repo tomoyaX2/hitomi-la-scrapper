@@ -2,21 +2,16 @@ import React from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import { Routes } from "../../enums/routes";
 import { ThreeArrowChevron } from "../../icons/ThreeArrowChevron";
+import { SidebarProps } from "./types";
 import { dynamicStylesConfig, links } from "./utils";
 
-const NavbarComponent: React.FC = ({ children }) => {
-  const history = useHistory();
-  const [isOpened, setOpened] = React.useState(true);
-  const [activeRoute, setActiveRoute] = React.useState(0);
-  const handleChangeOpenedState = () => {
-    setOpened(!isOpened);
-  };
-
-  const handleChangeRoute = (index: number, to: Routes) => () => {
-    setActiveRoute(index);
-    history.push(to);
-  };
-
+const NavbarComponent: React.FC<SidebarProps> = ({
+  children,
+  isOpened,
+  handleChangeOpenedState,
+  activeRoute,
+  handleChangeRoute,
+}) => {
   const {
     translateSidebar,
     chevronRotate,

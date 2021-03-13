@@ -1,5 +1,5 @@
 import { RegistrationModels } from "../types";
-import { Credentials, User } from "../../../../models";
+import { Credentials, Role, User } from "../../../../models";
 import { UserFields } from "../../../../models/user";
 import moment from "moment";
 import { MomentFormats } from "../../../enums/momentFormats";
@@ -18,7 +18,11 @@ class DbAuthService {
     modelToCredentials,
   }: RegistrationModels) => {
     try {
-      const dbUser = await User.create(modelToUser);
+      const userRole = await Role.findOne({ where: { name: "user" } });
+      const dbUser = await User.create({
+        ...modelToUser,
+        role_id: userRole.id,
+      });
       const user = dbUser.toJSON() as UserFields;
       const dbCredentials = await Credentials.create({
         ...modelToCredentials,

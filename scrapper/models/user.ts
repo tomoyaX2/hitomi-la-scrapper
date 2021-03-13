@@ -9,9 +9,9 @@ export interface UserFields {
   isActive?: boolean;
   phone?: string;
   isTwoFactorActive?: boolean;
-  role?: string;
   resendTime?: number;
   avatarUrl?: string;
+  role_id?: string;
 }
 
 export interface UserModel extends Model<UserFields>, UserFields {}

@@ -1,23 +1,52 @@
 import React from "react";
-import { useHistory } from "react-router";
-import { Routes } from "../../enums/routes";
+import { Permissions } from "../../enums/permissions";
+import { Login } from "../../modules/Auth/Login/Login.container";
+import { permissionService } from "../../utils/services/permissions";
 import { Button } from "../Button/Button";
+import { ClickOutside } from "../ClickOutside";
+import { NavbarProps } from "./types";
 
-const NavbarComponent: React.FC = ({ children }) => {
-  const history = useHistory();
-
-  const redirectToSignUp = () => {
-    history.push(Routes.signUp);
-  };
-
-  const redirectToLogin = () => {
-    history.push(Routes.login);
-  };
+const NavbarComponent: React.FC<NavbarProps> = ({
+  children,
+  redirectToSignUp,
+  logout,
+  isVisibleLogin,
+  handleChangeLoginModalState,
+  isSidebarOpened,
+  myName,
+}) => {
   return (
     <div className="flex flex-column w-full">
-      <div className=" flex w-full bg-black h-17 absolute justify-end items-center shadow-lg">
-        <Button label="Login" bordered onClick={redirectToLogin} />
-        <Button label="Sign Up" bordered onClick={redirectToSignUp} />
+      <div className=" flex w-full bg-black h-17 absolute justify-between items-center shadow-lg">
+        <span
+          className={`text-white ${
+            isSidebarOpened
+              ? "duration-1000 transform translate-x-60"
+              : "duration-1000 transform translate-x-32"
+          } text-xl`}
+        >
+          Welcome, {myName}
+        </span>
+        {permissionService.isAllowed(Permissions.canLogin) ? (
+          <>
+            <Button
+              label="Login"
+              bordered
+              onClick={handleChangeLoginModalState}
+            />
+            <Button label="Sign Up" bordered onClick={redirectToSignUp} />
+          </>
+        ) : (
+          <Button label="Logout" bordered onClick={logout} />
+        )}
+        {isVisibleLogin && (
+          <ClickOutside
+            action={handleChangeLoginModalState}
+            className="absolute mr-12 shadow-lg mt-100 rounded-md"
+          >
+            <Login handleChangeLoginModalState={handleChangeLoginModalState} />
+          </ClickOutside>
+        )}
       </div>
       <div>{children}</div>
     </div>

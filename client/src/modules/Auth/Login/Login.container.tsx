@@ -8,10 +8,13 @@ import { loginValidationScema } from "./validation";
 
 const initialValues = { login: "", password: "" };
 
-const Login: React.FC = () => {
+const Login: React.FC<{ handleChangeLoginModalState: () => void }> = ({
+  handleChangeLoginModalState,
+}) => {
   const dispatch = useDispatch();
   const onSubmit = (values: LoginFormData) => {
     dispatch(login(values));
+    handleChangeLoginModalState();
   };
   return (
     <Formik

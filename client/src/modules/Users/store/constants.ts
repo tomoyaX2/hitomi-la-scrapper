@@ -4,4 +4,10 @@ const GET_ME = {
   FAILURE: "GET_ME_FAILURE",
 };
 
-export { GET_ME };
+const LOGOUT = {
+  INIT: "LOGOUT",
+  SUCCESS: "LOGOUT_SUCCESS",
+  FAILURE: "LOGOUT_FAILURE",
+};
+
+export { GET_ME, LOGOUT };
