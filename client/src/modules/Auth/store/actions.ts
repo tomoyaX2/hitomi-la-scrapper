@@ -1,4 +1,9 @@
-import { LOGIN, SIGN_UP, VERIRIFCATION } from "./constants";
+import {
+  LOGIN,
+  RESEND_VERIFICATION,
+  SIGN_UP,
+  VERIRIFCATION,
+} from "./constants";
 import { LoginFormData, SignUpFormData } from "./types";
 
 export const login = (data: LoginFormData) => ({
@@ -27,15 +32,29 @@ export const signUpFailure = () => ({
   type: SIGN_UP.FAILURE,
 });
 
-export const verfication = (code: string, userId: string) => ({
+export const verfication = (code: string, token: string) => ({
   type: VERIRIFCATION.INIT,
-  data: { code, userId },
+  data: { code, token },
 });
 
-export const verificationSuccess = () => ({
+export const verificationSuccess = (data: { canResend: boolean }) => ({
   type: VERIRIFCATION.SUCCESS,
+  data,
 });
 
 export const verificationFailure = () => ({
   type: VERIRIFCATION.FAILURE,
+});
+
+export const resendVerification = (token: string) => ({
+  type: RESEND_VERIFICATION.INIT,
+  data: { token },
+});
+
+export const resendVerificationSuccess = () => ({
+  type: RESEND_VERIFICATION.SUCCESS,
+});
+
+export const resendVerificationFailure = () => ({
+  type: RESEND_VERIFICATION.FAILURE,
 });

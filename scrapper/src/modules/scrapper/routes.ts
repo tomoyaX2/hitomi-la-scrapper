@@ -1,16 +1,11 @@
-import { initiateScrapper } from ".";
 import express from "express";
-import { selectElementService } from "./services";
+import { initiateController } from "./controllers/initiate.controller";
+import { stopController } from "./controllers/stop.controller";
+
 const scrapperRouter = express.Router();
 
-scrapperRouter.get("/", (req, res) => {
-  res.send("scrapping is started");
-  initiateScrapper();
-});
+scrapperRouter.get("/", initiateController);
 
-scrapperRouter.get("/stop", (req, res) => {
-  res.send("scrapping is stopped");
-  selectElementService.stopScrapper();
-});
+scrapperRouter.get("/stop", stopController);
 
 export { scrapperRouter };

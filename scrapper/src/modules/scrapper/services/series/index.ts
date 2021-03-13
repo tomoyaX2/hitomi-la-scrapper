@@ -1,5 +1,4 @@
-import { Series } from "../../../../models";
-import uuid from "uuid";
+import { Series } from "../../../../../models";
 
 class SeriesService {
   constructor(public scrapperDbService) {}

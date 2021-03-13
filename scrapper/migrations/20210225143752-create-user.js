@@ -20,8 +20,21 @@ module.exports = {
       isActive: {
         type: Sequelize.BOOLEAN,
       },
+      phone: {
+        type: Sequelize.STRING,
+      },
+      avatarUrl: {
+        type: Sequelize.STRING,
+      },
+      resendTime: { type: Sequelize.STRING },
       code: {
         type: Sequelize.STRING,
+      },
+      isTwoFactorActive: {
+        type: Sequelize.BOOLEAN,
+      },
+      role_id: {
+        type: Sequelize.UUID,
       },
       createdAt: {
         allowNull: false,

@@ -1,5 +1,5 @@
 import cherio from "cheerio";
-import { Manga } from "../../../../models";
+import { Manga } from "../../../../../models";
 import { selectors } from "../../utils/selectors";
 
 class MangaService {

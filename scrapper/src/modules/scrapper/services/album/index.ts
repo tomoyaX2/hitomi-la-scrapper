@@ -1,5 +1,5 @@
-import { Album } from "../../../../models";
-import uuid from "uuid";
+import { Album } from "../../../../../models";
+
 class AlbumService {
   constructor(public scrapperDbService) {}
   initiateAlbumCreation = async (name) => {
@@ -11,10 +11,7 @@ class AlbumService {
   };
 
   pushAlbum = async (albumData) => {
-    const result = await this.scrapperDbService.pushMangaData(
-      Album,
-      albumData
-    );
+    const result = await this.scrapperDbService.pushMangaData(Album, albumData);
     return result.id;
   };
 }

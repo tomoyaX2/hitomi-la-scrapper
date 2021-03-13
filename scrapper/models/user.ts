@@ -7,6 +7,11 @@ export interface UserFields {
   token?: string;
   code?: string;
   isActive?: boolean;
+  phone?: string;
+  isTwoFactorActive?: boolean;
+  role?: string;
+  resendTime?: number;
+  avatarUrl?: string;
 }
 
 export interface UserModel extends Model<UserFields>, UserFields {}
@@ -25,7 +30,12 @@ export const UserFactory = (sequelize: Sequelize): UserStatic => {
     },
     name: DataTypes.STRING,
     email: DataTypes.STRING,
+    phone: DataTypes.STRING,
+    resendTime: DataTypes.NUMBER,
+    isTwoFactorActive: { type: DataTypes.BOOLEAN, defaultValue: false },
+    role_id: DataTypes.UUID,
     token: DataTypes.STRING,
+    avatarUrl: DataTypes.STRING,
     isActive: { type: DataTypes.BOOLEAN, defaultValue: false },
     code: DataTypes.STRING,
     createdAt: {

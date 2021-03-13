@@ -57,7 +57,6 @@ class ScrapperService {
 
   readSinglePageData = async () => {
     this.logService.addToLog(`read single page data start`);
-    console.log(this.state.page.data, "!!!!!!!", [this.state.currentIndex]);
     const { album } = await this.readSingleTitlePage(
       this.state.page.data[this.state.currentIndex]
     );

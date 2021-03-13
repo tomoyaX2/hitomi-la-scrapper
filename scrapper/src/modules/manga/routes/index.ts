@@ -1,16 +1,11 @@
 import express from "express";
-import { paramsService, getMangaDataService } from "../services";
+import { getAllController } from "../controllers/getAll.controller";
+import { getSingleMangaController } from "../controllers/getSingleMangacontroller.";
+
 const mangaRouter = express.Router();
 
-mangaRouter.get("/", async (req, res) => {
-  paramsService.parseRequestQuery(req.query);
-  const manga = await getMangaDataService.getAllManga();
-  res.send(manga);
-});
+mangaRouter.get("/:id", getSingleMangaController);
 
-mangaRouter.get("/:id", async (req, res) => {
-  const manga = await getMangaDataService.getManga(req.params.id);
-  res.send(manga);
-});
+mangaRouter.get("/", getAllController);
 
 export { mangaRouter };

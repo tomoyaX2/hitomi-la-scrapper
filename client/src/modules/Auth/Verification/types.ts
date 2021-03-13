@@ -1,4 +1,13 @@
-export type VeririfcationFormProps = {
+export type VerifcationFormData = {
   code: string;
-  userId?: string;
+  token: string;
+};
+
+export type VerificationComponentProps = {
+  canResend: boolean;
+  resend: () => void;
+};
+
+export type ResendFields = {
+  userId: string;
 };

@@ -1,5 +1,4 @@
-import { Tag } from "../../../../models";
-import uuid from "uuid";
+import { Tag } from "../../../../../models";
 
 class TagsService {
   constructor(public dbService) {}

@@ -9,10 +9,14 @@ const NavbarComponent: React.FC = ({ children }) => {
   const redirectToSignUp = () => {
     history.push(Routes.signUp);
   };
+
+  const redirectToLogin = () => {
+    history.push(Routes.login);
+  };
   return (
     <div className="flex flex-column w-full">
       <div className=" flex w-full bg-black h-17 absolute justify-end items-center shadow-lg">
-        <Button label="Login" bordered />
+        <Button label="Login" bordered onClick={redirectToLogin} />
         <Button label="Sign Up" bordered onClick={redirectToSignUp} />
       </div>
       <div>{children}</div>

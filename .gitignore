@@ -5,6 +5,7 @@
 /scrapper/log
 /scrapper/public
 /scrapper/yarn.lock
+/scrapper/.env
 node_modules
 # testing
 /client/coverage

@@ -10,10 +10,11 @@ import { SeriesFactory } from "./series";
 import { TagFactory } from "./tag";
 import { MangaTagFactory } from "./mangatag";
 import { MangaFactory } from "./manga";
+import { RoleFactory } from "./role";
 
 const Sequelize = require("sequelize");
 const env = process.env.NODE_ENV || "development";
-const config = require(__dirname + "/../../config/config.json")[env];
+const config = require(__dirname + "/../config/config.json")[env];
 
 let sequelize;
 if (config.use_env_variable) {
@@ -38,7 +39,9 @@ const Series = SeriesFactory(sequelize);
 const Tag = TagFactory(sequelize);
 const MangaTag = MangaTagFactory(sequelize);
 const Manga = MangaFactory(sequelize);
+const Role = RoleFactory(sequelize);
 
+User.belongsTo(Role, { foreignKey: "role_id", as: "role" });
 Album.belongsToMany(Image, {
   through: "AlbumImages",
 });
@@ -89,5 +92,6 @@ export {
   Tag,
   MangaTag,
   Manga,
+  Role,
   sequelize,
 };

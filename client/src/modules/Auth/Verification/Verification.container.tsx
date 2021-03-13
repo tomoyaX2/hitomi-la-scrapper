@@ -2,23 +2,30 @@ import React from "react";
 import { VerificationComponent } from "./Verification.component";
 import { Formik } from "formik";
 import { verificationFormSchema } from "./validation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import queryString from "query-string";
 import { useHistory } from "react-router";
-import { VeririfcationFormProps } from "./types";
-import { verfication } from "../store/actions";
+import { VerifcationFormData } from "./types";
+import { resendVerification, verfication } from "../store/actions";
+import { selectAuthState } from "../store/reducer";
 
 const initialValues = {
   code: "",
+  token: "",
 };
 
 const Verification: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { canResend } = useSelector(selectAuthState);
+  const onSubmit = (values: VerifcationFormData) => {
+    const token = queryString.parse(history.location.search).token as string;
+    dispatch(verfication(values.code, token));
+  };
 
-  const onSubmit = (values: VeririfcationFormProps) => {
-    const userId = queryString.parse(history.location.search).userId as string;
-    dispatch(verfication(values.code, userId));
+  const resend = () => {
+    const token = queryString.parse(history.location.search).token as string;
+    dispatch(resendVerification(token));
   };
 
   return (
@@ -27,7 +34,7 @@ const Verification: React.FC = () => {
       onSubmit={onSubmit}
       validationSchema={verificationFormSchema}
     >
-      <VerificationComponent />
+      <VerificationComponent canResend={canResend} resend={resend} />
     </Formik>
   );
 };

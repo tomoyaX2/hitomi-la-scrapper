@@ -6,7 +6,8 @@
   "scripts": {
     "build:styles": "yarn --cwd client build:style",
     "start": "concurrently  \"yarn --cwd scrapper start\" \"yarn --cwd client start\" ",
-    "migrate": "yarn --cwd scrapper sequelize db:migrate"
+    "migrate": "yarn --cwd scrapper sequelize db:migrate",
+    "seed": " yarn --cwd scrapper sequelize-cli db:seed:all"
   },
   "keywords": [],
   "author": "",

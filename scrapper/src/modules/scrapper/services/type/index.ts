@@ -1,5 +1,4 @@
-import { Type } from "../../../../models";
-import uuid from "uuid";
+import { Type } from "../../../../../models";
 
 class TypesService {
   constructor(public scrapperDbService) {}

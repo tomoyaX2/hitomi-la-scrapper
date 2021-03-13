@@ -2,7 +2,7 @@ import React from "react";
 import { InputProps } from "./types";
 import { useFormikContext } from "formik";
 import { LoginFormData, SignUpFormData } from "../../modules/Auth/store/types";
-import { VeririfcationFormProps } from "../../modules/Auth/Verification/types";
+import { VerifcationFormData } from "../../modules/Auth/Verification/types";
 
 const Input: React.FC<InputProps> = ({ label, name, placeholder = "" }) => {
   const {
@@ -12,7 +12,7 @@ const Input: React.FC<InputProps> = ({ label, name, placeholder = "" }) => {
     touched,
     handleBlur,
   } = useFormikContext<
-    LoginFormData & SignUpFormData & VeririfcationFormProps
+    LoginFormData & SignUpFormData & VerifcationFormData
   >();
   return (
     <div className="flex flex-col  my-4 ">

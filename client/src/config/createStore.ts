@@ -2,20 +2,24 @@ import { createStore, Reducer } from "redux";
 import { combineReducers, install } from "redux-loop";
 import { authReducer, authState } from "../modules/Auth/store/reducer";
 import { mainInitialState, mainReducer } from "../modules/Main/store/reducer";
+import { usersReducer, usersState } from "../modules/Users/store/reducer";
 
-type InitialState = {
+export type State = {
   main: typeof mainInitialState;
   auth: typeof authState;
+  users: typeof usersState;
 };
 
-const initalState: InitialState = {
+const initalState: State = {
   main: mainInitialState,
   auth: authState,
+  users: usersState,
 };
 
 const rootReducer: Reducer<any, any> = combineReducers({
   main: mainReducer,
   auth: authReducer,
+  users: usersReducer,
 });
 
 const store = createStore(rootReducer, initalState, install());

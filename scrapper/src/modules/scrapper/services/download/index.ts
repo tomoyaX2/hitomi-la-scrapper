@@ -1,7 +1,8 @@
 import fs from "fs";
-const dir = "./public/downloads";
 import crypto from "crypto";
 import axios from "axios";
+
+const dir = "./public/downloads";
 
 class DownloadService {
   constructor(
@@ -16,8 +17,6 @@ class DownloadService {
       fs.mkdirSync(dir, { recursive: true });
     }
     fs.mkdirSync(`${dir}/${id}`);
-    // fs.mkdirSync(`${dir}/compressed/${id}/`, {recursive: true});
-    // fs.mkdirSync(`${dir}/decompressed/${id}/`, {recursive: true});
   };
 
   initiateDownload = async ({ link, referer, id }) => {
@@ -34,11 +33,9 @@ class DownloadService {
     return path;
   };
 
-  handleImagesList = async (list) => {
-    const albumId = this.scrapperDbService.currentManga.album_id;
-    this.logService.addToLog(`handle images list start`);
+  prepareDownloadList = async (list) => {
     const downloadImagesIds = [];
-    this.createDefaultDir(albumId);
+    const albumId = this.scrapperDbService.currentManga.album_id;
     for (let image of list) {
       const id = crypto.randomBytes(16).toString("hex");
       const url = await this.initiateDownload({ ...image, id: albumId });
@@ -50,6 +47,14 @@ class DownloadService {
       });
       downloadImagesIds.push(id);
     }
+    return downloadImagesIds;
+  };
+
+  handleImagesList = async (list) => {
+    const albumId = this.scrapperDbService.currentManga.album_id;
+    this.logService.addToLog(`handle images list start`);
+    this.createDefaultDir(albumId);
+    const downloadImagesIds = await this.prepareDownloadList(list);
     this.index = 0;
     await this.dbService.createAlbumImageRelation(albumId, downloadImagesIds);
     this.logService.addToLog(`finished`);

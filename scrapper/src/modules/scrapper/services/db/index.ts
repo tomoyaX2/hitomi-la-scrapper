@@ -5,7 +5,7 @@ import {
   Manga,
   MangaTag,
   Tag,
-} from "../../../../models";
+} from "../../../../../models";
 
 class DbService {
   createMangaTagRelation = async (MangaId, tagIds) => {

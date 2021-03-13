@@ -1,85 +1,16 @@
-import { RegistrationModels, TotalUserFields, UserErrors } from "../types";
-import { Credentials, User } from "../../../models";
-import uuid from "uuid";
-import crypto from "crypto";
-import { UserFields } from "../../../models/user";
+import { RegistrationModels } from "../types";
+import { Credentials, User } from "../../../../models";
+import { UserFields } from "../../../../models/user";
+import moment from "moment";
+import { MomentFormats } from "../../../enums/momentFormats";
 
 class DbAuthService {
-  constructor() {}
-
-  hashPassword = (password: string) => {
-    const sha256 = crypto.createHash("sha256");
-    const hash = sha256.update(password).digest("base64");
-    return hash;
-  };
-
-  createToken = () => {
-    return crypto.randomBytes(30).toString("hex");
-  };
-
-  searchForUserByLogin = async (login: string) => {
-    try {
-      const result = await Credentials.findOne({
-        where: { login },
-        include: [User],
-      });
-      return {
-        isSuccess: true,
-        data: JSON.parse(JSON.stringify(result)),
-        errors: null,
-      };
-    } catch (errors) {
-      return { isSuccess: false, data: null, errors };
-    }
-  };
+  constructor(public secureService, public dbSearchService) {}
 
   setupToken = async (user_id: string) => {
-    const token = this.createToken();
+    const token = this.secureService.createToken();
     await User.update({ token }, { where: { id: user_id } });
-  };
-
-  searchForExistedLogin = async (login: string) => {
-    const isExistsName = await Credentials.findOne({ where: { login } });
-    return !!isExistsName;
-  };
-
-  searchForExistedEmail = async (email: string) => {
-    const isExistsEmail = await User.findOne({ where: { email } });
-    return !!isExistsEmail;
-  };
-
-  generateUserExistErrorDataForResponse = ({
-    isExistsEmail,
-    isExistsLogin,
-  }) => {
-    let errors = {} as UserErrors;
-    let isValid = true;
-    if (isExistsEmail) {
-      isValid = false;
-      errors = { ...errors, email: "This email is already taken" };
-    }
-    if (isExistsLogin) {
-      isValid = false;
-      errors = { ...errors, login: "This login is already taken" };
-    }
-    if (isValid) {
-      return { errors: null, isSuccess: true };
-    }
-    return errors;
-  };
-
-  searchForExistedCredentials = async (user: TotalUserFields) => {
-    const searchLoginResult = this.searchForExistedLogin(user.login);
-    const searchEmailResult = this.searchForExistedEmail(user.email);
-    const promises = [searchLoginResult, searchEmailResult];
-    const result = await Promise.all(promises);
-    const isExistsLogin = result[0];
-    const isExistsEmail = result[1];
-    const errors = this.generateUserExistErrorDataForResponse({
-      isExistsEmail,
-      isExistsLogin,
-    });
-    return errors;
+    return token;
   };
 
   generateUserCredentials = async ({
@@ -103,10 +34,7 @@ class DbAuthService {
     modelToUser,
     modelToCredentials,
   }: RegistrationModels) => {
-    const result = await this.searchForExistedCredentials({
-      login: modelToCredentials.login,
-      email: modelToUser.email,
-    });
+    const result = await this.dbSearchService.searchForExistedData(modelToUser);
     if (result.isSuccess) {
       const result = this.generateUserCredentials({
         modelToUser,
@@ -117,6 +45,31 @@ class DbAuthService {
     return result;
   };
 
+  verifyResendState = async (userId: string) => {
+    const user = await User.findOne({ where: { id: userId } });
+    const currentDate = new Date();
+    const allowedDate = user.resendTime;
+    if (currentDate.getTime() < allowedDate) {
+      return {
+        isSuccess: false,
+        errors: {
+          date: `You can get a new link in ${moment(
+            allowedDate,
+            MomentFormats.miliseconds
+          ).format(MomentFormats.default)}`,
+        },
+      };
+    }
+    return { isSuccess: true, errors: null, user };
+  };
+
+  updateResendState = async (userId, code) => {
+    const dateToSet = new Date().setHours(new Date().getHours() + 1);
+    const resendTime = new Date(dateToSet).getTime();
+    await User.update({ code, resendTime }, { where: { id: userId } });
+    return resendTime;
+  };
+
   updateUserWithCode = async (userId, code) => {
     await User.update({ code }, { where: { id: userId } });
   };
@@ -124,7 +77,7 @@ class DbAuthService {
   initiateUserActivation = async (code, userId) => {
     const user = await User.findOne({ where: { id: userId } });
     const isValidUser = !!user;
-    const isValidCode = user.code === code;
+    const isValidCode = user?.code === code;
     if (isValidUser && isValidCode) {
       await User.update(
         { code: null, isActive: true },
@@ -134,8 +87,6 @@ class DbAuthService {
     }
     return { isSuccess: false, errors: { isValidCode, isValidUser } };
   };
-
-  handleLogin = async (userData) => {};
 }
 
 export { DbAuthService };

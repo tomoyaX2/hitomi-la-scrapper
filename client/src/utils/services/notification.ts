@@ -2,22 +2,23 @@ import { Notification } from "rsuite";
 import { NotificationTypes } from "../../enums/notificationTypes";
 
 class NotificationService {
-  duration = 5000;
   notify = ({
     title,
     description,
     type = NotificationTypes.success,
+    duration = 5000,
   }: {
     title: string;
     description?: string;
     type?: NotificationTypes;
+    duration?: number;
   }) => {
     switch (type) {
       case NotificationTypes.success: {
         Notification.info({
           title,
           description,
-          duration: this.duration,
+          duration,
         });
         return;
       }
@@ -25,14 +26,10 @@ class NotificationService {
         return Notification.error({
           title,
           description,
-          duration: this.duration,
+          duration,
         });
       }
     }
-  };
-
-  changeDuration = (duration: number) => {
-    this.duration = duration;
   };
 }
 

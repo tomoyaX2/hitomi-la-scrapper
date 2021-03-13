@@ -2,6 +2,7 @@ import React from "react";
 import { Switch, Route, useHistory } from "react-router-dom";
 import Sidebar from "./components/Sidebar/Sidebar";
 import { Routes } from "./enums/routes";
+import { Login } from "./modules/Auth/Login/Login.container";
 import { SignUp } from "./modules/Auth/SignUp/SignUp.container";
 import { Verification } from "./modules/Auth/Verification/Verification.container";
 import Gallery from "./modules/Gallery/Gallery.container";
@@ -10,6 +11,7 @@ import Games from "./modules/Games/Games.container";
 import Main from "./modules/Main/Main.container";
 import Manga from "./modules/Manga/Manga.container";
 import MangaList from "./modules/MangaList/MangaList.container";
+import { Me } from "./modules/Users/Me/Me.container";
 import { historyService } from "./utils/services/history";
 
 function Router() {
@@ -40,6 +42,12 @@ function Router() {
         </Route>
         <Route path={Routes.verification}>
           <Verification />
+        </Route>
+        <Route path={Routes.me}>
+          <Me />
+        </Route>
+        <Route path={Routes.login}>
+          <Login />
         </Route>
         <Route path={Routes.main}>
           <Main />

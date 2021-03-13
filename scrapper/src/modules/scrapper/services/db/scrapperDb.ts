@@ -1,5 +1,6 @@
-import { Tag, Manga, Image } from "../../../../models";
+import { Tag, Manga, Image } from "../../../../../models";
 import { appUrl } from "../../utils/constants";
+
 class ScrapperDbService {
   tags = [];
   currentManga = {};

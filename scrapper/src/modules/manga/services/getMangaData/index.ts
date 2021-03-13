@@ -1,4 +1,4 @@
-const { Manga, Album, Image, Tag } = require("../../../../models");
+import { Manga, Album, Image, Tag } from "../../../../../models";
 
 class GetMangaDataService {
   constructor(public paramsService) {}
@@ -8,7 +8,7 @@ class GetMangaDataService {
       offset: this.paramsService.params.offset,
       order: [this.paramsService.params.order],
       include: [
-        { model: Album, include: Image },
+        { model: Album, include: [Image] },
         "user",
         "type",
         "author",
