@@ -3,8 +3,14 @@ import { InputProps } from "./types";
 import { useFormikContext } from "formik";
 import { LoginFormData, SignUpFormData } from "../../modules/Auth/store/types";
 import { VerifcationFormData } from "../../modules/Auth/Verification/types";
+import { ProfileSettingsFormData } from "../../modules/ProfileSettings/types";
 
-const Input: React.FC<InputProps> = ({ label, name, placeholder = "" }) => {
+const Input: React.FC<InputProps> = ({
+  label,
+  name,
+  placeholder = "",
+  isRequired = false,
+}) => {
   const {
     values,
     errors,
@@ -12,11 +18,18 @@ const Input: React.FC<InputProps> = ({ label, name, placeholder = "" }) => {
     touched,
     handleBlur,
   } = useFormikContext<
-    LoginFormData & SignUpFormData & VerifcationFormData
+    LoginFormData &
+      SignUpFormData &
+      VerifcationFormData &
+      ProfileSettingsFormData
   >();
+
   return (
     <div className="flex flex-col  my-4 ">
-      <span className="text-md pb-2">{label}</span>
+      <span className="text-md pb-2">
+        {label}
+        {isRequired && <span className="text-red-400 text-md">*</span>}
+      </span>
       <input
         name={name}
         value={values[name]}

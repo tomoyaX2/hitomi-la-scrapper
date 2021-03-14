@@ -14,9 +14,6 @@ module.exports = {
       email: {
         type: Sequelize.STRING,
       },
-      token: {
-        type: Sequelize.STRING,
-      },
       isActive: {
         type: Sequelize.BOOLEAN,
       },

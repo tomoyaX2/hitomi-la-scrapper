@@ -7,13 +7,13 @@ import { Roles } from "../../../enums/roles";
 import { Routes } from "../../../enums/routes";
 import { localStorageService } from "../../../utils/services/localStorage";
 import { notificationService } from "../../../utils/services/notification";
-import { permissionService } from "../../../utils/services/permissions";
 import { getMeFailure, getMeSuccess, logoutSuccess } from "./actions";
 import { GET_ME, LOGOUT } from "./constants";
 import { UserData } from "./types";
 
 const selectMe = (state: State) => state.users.me;
 const selectLoadingState = (state: State) => state.users.isLoaded;
+const selectUserRole = (state: State) => state.users?.me?.role;
 const usersState = {
   me: {} as UserData,
   guuest: {},
@@ -28,7 +28,6 @@ const handleGetMe = async () => {
     }
     axios.defaults.headers.authorization = token;
     const response = await axios.get(Routes.me);
-    permissionService.setupRole(response.data.data?.role);
     return response.data.data;
   } catch (e) {
     notificationService.notify({
@@ -40,7 +39,6 @@ const handleGetMe = async () => {
 };
 
 const initLogout = () => {
-  permissionService.setupRole(Roles.unauth);
   localStorageService.removeToken();
 };
 
@@ -57,7 +55,16 @@ const usersReducer = (state = usersState, action: AnyAction) => {
       );
     }
     case GET_ME.SUCCESS: {
-      return { ...state, me: action.data, isLoaded: true };
+      const role = !action.data?.id ? { name: Roles.unauth } : action.data.role;
+      return {
+        ...state,
+        me: {
+          ...action.data,
+          role,
+          phone: !!action.data.phone ? action.data.phone : "",
+        },
+        isLoaded: true,
+      };
     }
     case LOGOUT.INIT: {
       return loop(
@@ -69,11 +76,17 @@ const usersReducer = (state = usersState, action: AnyAction) => {
       );
     }
     case LOGOUT.SUCCESS: {
-      return { ...state, me: {} };
+      return { ...state, me: { role: { name: Roles.unauth } } };
     }
     default:
       return state;
   }
 };
 
-export { usersState, usersReducer, selectMe, selectLoadingState };
+export {
+  usersState,
+  usersReducer,
+  selectMe,
+  selectLoadingState,
+  selectUserRole,
+};

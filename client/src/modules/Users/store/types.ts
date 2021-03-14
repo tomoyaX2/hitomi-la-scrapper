@@ -1,3 +1,5 @@
+import { Roles } from "../../../enums/roles";
+
 export type UserData = {
   avatarUrl: string;
   createdAt: string;
@@ -7,6 +9,6 @@ export type UserData = {
   isTwoFactorActive: boolean;
   name: string;
   phone: string;
-  role: string;
+  role: { name: Roles; id: string };
   updatedAt: string;
 };

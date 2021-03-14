@@ -1,3 +1,4 @@
+import { Roles } from "../../enums/roles";
 import { UserData } from "../../modules/Users/store/types";
 
 export type NavbarProps = {
@@ -7,4 +8,5 @@ export type NavbarProps = {
   isVisibleLogin: boolean;
   isSidebarOpened: boolean;
   myName: string;
+  role: Roles;
 };

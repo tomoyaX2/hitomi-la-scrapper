@@ -14,28 +14,35 @@ const NavbarComponent: React.FC<NavbarProps> = ({
   handleChangeLoginModalState,
   isSidebarOpened,
   myName,
+  role,
 }) => {
   return (
     <div className="flex flex-column w-full">
-      <div className=" flex w-full bg-black h-17 absolute justify-between items-center shadow-lg">
-        <span
-          className={`text-white ${
-            isSidebarOpened
-              ? "duration-1000 transform translate-x-60"
-              : "duration-1000 transform translate-x-32"
-          } text-xl`}
-        >
-          Welcome, {myName}
-        </span>
-        {permissionService.isAllowed(Permissions.canLogin) ? (
-          <>
+      <div
+        className={`flex w-full bg-black h-17 absolute ${
+          !!myName ? "justify-between" : "justify-end"
+        } items-center shadow-lg`}
+      >
+        {!!myName && (
+          <span
+            className={`text-white ${
+              isSidebarOpened
+                ? "duration-1000 transform translate-x-60"
+                : "duration-1000 transform translate-x-32"
+            } text-xl`}
+          >
+            Welcome, {myName}
+          </span>
+        )}
+        {permissionService.isAllowed(Permissions.canLogin, role) ? (
+          <div className="flex">
             <Button
               label="Login"
               bordered
               onClick={handleChangeLoginModalState}
             />
             <Button label="Sign Up" bordered onClick={redirectToSignUp} />
-          </>
+          </div>
         ) : (
           <Button label="Logout" bordered onClick={logout} />
         )}

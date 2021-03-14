@@ -8,6 +8,7 @@ enum Routes {
   signUp = "/signUp",
   verification = "/verification",
   me = "/users/me",
+  profileSettings = "/profile",
 }
 
 export { Routes };

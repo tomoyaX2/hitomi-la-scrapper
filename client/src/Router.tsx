@@ -11,6 +11,7 @@ import Games from "./modules/Games/Games.container";
 import Main from "./modules/Main/Main.container";
 import Manga from "./modules/Manga/Manga.container";
 import MangaList from "./modules/MangaList/MangaList.container";
+import ProfileSettings from "./modules/ProfileSettings/ProfileSettings.container";
 import { Me } from "./modules/Users/Me/Me.container";
 
 function Router() {
@@ -40,8 +41,17 @@ function Router() {
       >
         <Verification />
       </ProtectedRoute>
-      <ProtectedRoute path={Routes.me} permission={Permissions.viewCabinet}>
+      <ProtectedRoute
+        path={Routes.me}
+        permission={Permissions.viewProfileSettings}
+      >
         <Me />
+      </ProtectedRoute>
+      <ProtectedRoute
+        path={Routes.profileSettings}
+        permission={Permissions.viewProfileSettings}
+      >
+        <ProfileSettings />
       </ProtectedRoute>
       <Route path={Routes.main}>
         <Main />

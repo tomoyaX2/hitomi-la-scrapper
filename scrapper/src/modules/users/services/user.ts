@@ -1,3 +1,5 @@
+import { UserFields } from "../../../../models/user";
+
 const fieldsToReturn = [
   "avatarUrl",
   "createdAt",
@@ -11,16 +13,46 @@ const fieldsToReturn = [
   "updatedAt",
 ];
 
+const expectedCredentialFieldsToUpdate = ["login", "password"];
+const expectedUserFieldsToUpdate = [
+  "name",
+  "email",
+  "phone",
+  "isTwoFactorActive",
+];
+
 class UserService {
-  initSelectUserData = async () => {};
-  formatUserDataToResponse = (user) => {
-    const result = {};
-
+  constructor(public secureService) {}
+  formatUserDataToResponse = (credential) => {
+    const result = {} as UserFields & { login: string; credentialId: string };
     for (let field of fieldsToReturn) {
-      result[field] = user[field];
+      result[field] = credential.User[field];
     }
-
+    result.login = credential.login;
+    result.credentialId = credential.id;
     return result;
+  };
+
+  formatUserAndCredentialsDataToUpdate = (data) => {
+    const credentialFields = {};
+    const userFields = {};
+    const hasPassword = !!data.password;
+    const targetCredentialFields = hasPassword
+      ? expectedCredentialFieldsToUpdate
+      : expectedCredentialFieldsToUpdate.filter((el) => el !== "password");
+    for (let credentialField of targetCredentialFields) {
+      if (credentialField === "password") {
+        credentialFields[credentialField] = this.secureService.createHash(
+          data[credentialField]
+        );
+      } else {
+        credentialFields[credentialField] = data[credentialField];
+      }
+    }
+    for (let userField of expectedUserFieldsToUpdate) {
+      userFields[userField] = data[userField];
+    }
+    return { credentialFields, userFields };
   };
 }
 

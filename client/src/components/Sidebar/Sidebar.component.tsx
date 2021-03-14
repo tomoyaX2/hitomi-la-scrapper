@@ -1,16 +1,16 @@
 import React from "react";
-import { NavLink, useHistory } from "react-router-dom";
-import { Routes } from "../../enums/routes";
-import { ThreeArrowChevron } from "../../icons/ThreeArrowChevron";
+import { permissionService } from "../../utils/services/permissions";
+import { ThreeArrowChevron } from "../icons/ThreeArrowChevron";
 import { SidebarProps } from "./types";
 import { dynamicStylesConfig, links } from "./utils";
 
-const NavbarComponent: React.FC<SidebarProps> = ({
+const SidebarComponent: React.FC<SidebarProps> = ({
   children,
   isOpened,
   handleChangeOpenedState,
   activeRoute,
   handleChangeRoute,
+  role,
 }) => {
   const {
     translateSidebar,
@@ -19,7 +19,6 @@ const NavbarComponent: React.FC<SidebarProps> = ({
     activeLinkStyle,
     translateContent,
   } = dynamicStylesConfig(isOpened);
-
   return (
     <div className="flex w-full">
       <div
@@ -32,21 +31,23 @@ const NavbarComponent: React.FC<SidebarProps> = ({
             className={`w-16 h-12 cursor-pointer transform ${chevronRotate}`}
           />
         </div>
-        {links.map((el, index) => (
-          <span
-            className={activeLinkStyle(index, activeRoute)}
-            key={index}
-            onClick={handleChangeRoute(index, el.to)}
-          >
-            {isOpened
-              ? el.label
-              : el.icon({ fill: activeRoute == index ? "black" : "white" })}
-          </span>
-        ))}
+        {links.map((el, index) =>
+          permissionService.isAllowed(el.permission, role) ? (
+            <span
+              className={activeLinkStyle(index, activeRoute)}
+              key={index}
+              onClick={handleChangeRoute(index, el.to)}
+            >
+              {isOpened
+                ? el.label
+                : el.icon({ fill: activeRoute == index ? "black" : "white" })}
+            </span>
+          ) : null
+        )}
       </div>
       <div className={`pl-4 mt-20 ${translateContent}`}>{children}</div>
     </div>
   );
 };
 
-export default NavbarComponent;
+export { SidebarComponent };

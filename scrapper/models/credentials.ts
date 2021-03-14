@@ -5,6 +5,7 @@ export interface CredentialsFields {
   login: string;
   password: string;
   user_id: string;
+  token?: string;
 }
 
 export interface CredentialsModel
@@ -24,8 +25,9 @@ export const CredentialsFactory = (sequelize: Sequelize): CredentialsStatic => {
       unique: true,
     },
     login: DataTypes.STRING,
-    password: DataTypes.STRING,
     user_id: DataTypes.UUID,
+    token: DataTypes.STRING,
+    password: DataTypes.STRING,
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,

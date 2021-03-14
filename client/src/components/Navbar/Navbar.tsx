@@ -25,12 +25,12 @@ const Navbar: React.FC<{ isSidebarOpened: boolean }> = ({
   const handleChangeLoginModalState = () => {
     setVisibleLogin(!isVisibleLogin);
   };
-
   return (
     <NavbarComponent
       redirectToSignUp={redirectToSignUp}
       isVisibleLogin={isVisibleLogin}
       myName={me.name}
+      role={me?.role?.name}
       isSidebarOpened={isSidebarOpened}
       handleChangeLoginModalState={handleChangeLoginModalState}
       logout={initLogout}

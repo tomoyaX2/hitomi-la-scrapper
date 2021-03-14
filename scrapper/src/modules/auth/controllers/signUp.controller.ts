@@ -2,10 +2,7 @@ import { authService, verificationService } from "../services";
 
 export const signUpController = async (req, res) => {
   const { password, passwordConfirm, email, name, login } = req.body;
-  const isValidPasswords = authService.validateIncomingPasswords(
-    password,
-    passwordConfirm
-  );
+  const isValidPasswords = password === passwordConfirm;
   if (!isValidPasswords) {
     res.status(400).send({
       isSuccess: false,

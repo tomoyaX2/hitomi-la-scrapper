@@ -5,6 +5,7 @@ enum ApiRoutes {
   verification = "/auth/verification",
   me = "/users/me",
   resendVerification = "/auth/verification/resend",
+  updateProfile = "/users/update-profile",
 }
 
 export { ApiRoutes };

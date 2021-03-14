@@ -1,7 +1,9 @@
 export enum Permissions {
-  viewCabinet = "viewCabinet",
+  viewProfileSettings = "viewProfileSettings",
   viewAdminPanel = "viewAdminPanel",
   canDownload = "canDownload",
   canLogin = "canLogin",
   canRegister = "canRegister",
+  readManga = "readManga",
+  viewGames = "viewGames",
 }

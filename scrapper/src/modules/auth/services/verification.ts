@@ -93,7 +93,6 @@ class VerificationService {
       to,
     });
     await this.dbAuthService.updateUserWithCode(userId, code);
-    console.log(result, "result");
   };
 }
 

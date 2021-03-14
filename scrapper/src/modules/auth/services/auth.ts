@@ -30,6 +30,15 @@ class AuthService {
     const credentialsSearchResult = await this.dbSearchService.searchForUserByLogin(
       data.login
     );
+    if (!credentialsSearchResult.data?.User.isActive) {
+      return {
+        isSuccess: false,
+        data: null,
+        errors: {
+          login: "This account doesn't exists or it's not activated yet",
+        },
+      };
+    }
     if (credentialsSearchResult.isSuccess) {
       return this.handleSuccessCredentialSearch(data, credentialsSearchResult);
     }
@@ -47,8 +56,25 @@ class AuthService {
     return result;
   };
 
-  validateIncomingPasswords = (password, passwordConfirm) => {
-    return password === passwordConfirm;
+  initCompareOldPassword = async (credentialId, oldPassword) => {
+    const realPassword = await this.dbAuthService.selectUserPassword(
+      credentialId
+    );
+    const isValid = this.secureService.comparePasswords(
+      oldPassword,
+      realPassword
+    );
+    if (!isValid) {
+      const result = {
+        isSuccess: false,
+        data: null,
+        errors: {
+          oldPassword: "Your old password is invalid",
+        },
+      };
+      return result;
+    }
+    return { isSuccess: true, data: {}, errors: null };
   };
 }
 

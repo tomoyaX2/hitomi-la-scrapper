@@ -4,7 +4,6 @@ export interface UserFields {
   id?: string;
   name: string;
   email: string;
-  token?: string;
   code?: string;
   isActive?: boolean;
   phone?: string;
@@ -12,6 +11,8 @@ export interface UserFields {
   resendTime?: number;
   avatarUrl?: string;
   role_id?: string;
+  credential_id?: string;
+  getCredentials?: any;
 }
 
 export interface UserModel extends Model<UserFields>, UserFields {}
@@ -34,7 +35,6 @@ export const UserFactory = (sequelize: Sequelize): UserStatic => {
     resendTime: DataTypes.NUMBER,
     isTwoFactorActive: { type: DataTypes.BOOLEAN, defaultValue: false },
     role_id: DataTypes.UUID,
-    token: DataTypes.STRING,
     avatarUrl: DataTypes.STRING,
     isActive: { type: DataTypes.BOOLEAN, defaultValue: false },
     code: DataTypes.STRING,

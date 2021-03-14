@@ -11,6 +11,11 @@ class SecureService {
     return hash;
   };
 
+  comparePasswords = (enteredPassword: string, realPassword: string) => {
+    const hashedPassword = this.createHash(enteredPassword);
+    return hashedPassword === realPassword;
+  };
+
   createToken = () => {
     return crypto.randomBytes(30).toString("hex");
   };

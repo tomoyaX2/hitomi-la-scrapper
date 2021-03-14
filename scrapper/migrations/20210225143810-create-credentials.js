@@ -14,11 +14,14 @@ module.exports = {
         type: Sequelize.STRING,
       },
       user_id: {
-        type: Sequelize.UUID,
+        type: Sequelize.UUID
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
+      },
+      token: {
+        type: Sequelize.STRING,
       },
       updatedAt: {
         allowNull: false,

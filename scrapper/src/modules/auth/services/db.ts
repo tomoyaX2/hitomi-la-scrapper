@@ -9,7 +9,7 @@ class DbAuthService {
 
   setupToken = async (user_id: string) => {
     const token = this.secureService.createToken();
-    await User.update({ token }, { where: { id: user_id } });
+    await Credentials.update({ token }, { where: { user_id: user_id } });
     return token;
   };
 
@@ -24,9 +24,10 @@ class DbAuthService {
         role_id: userRole.id,
       });
       const user = dbUser.toJSON() as UserFields;
-      const dbCredentials = await Credentials.create({
+      await Credentials.create({
         ...modelToCredentials,
         user_id: user.id,
+        token: "",
       });
       return { isSuccess: true, errors: null, userId: user.id };
     } catch (errors) {
@@ -90,6 +91,11 @@ class DbAuthService {
       return { isSuccess: true, errors: null };
     }
     return { isSuccess: false, errors: { isValidCode, isValidUser } };
+  };
+
+  selectUserPassword = async (id: string) => {
+    const credential = await Credentials.findOne({ where: { id } });
+    return credential.password;
   };
 }
 
