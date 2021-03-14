@@ -79,6 +79,7 @@ class DbAuthService {
     await User.update({ code }, { where: { id: userId } });
   };
 
+
   initiateUserActivation = async (code, userId) => {
     const user = await User.findOne({ where: { id: userId } });
     const isValidUser = !!user;
@@ -96,6 +97,10 @@ class DbAuthService {
   selectUserPassword = async (id: string) => {
     const credential = await Credentials.findOne({ where: { id } });
     return credential.password;
+  };
+
+  updateUserPhoneState = async (id, isPhoneSubmitted) => {
+    await User.update({ isPhoneSubmitted }, { where: { id } });
   };
 }
 

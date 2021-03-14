@@ -7,14 +7,15 @@ import { VerificationService } from "./verification";
 const dbSearchService = new DbSearchService();
 const secureService = new SecureService();
 const dbAuthService = new DbAuthService(secureService, dbSearchService);
+const verificationService = new VerificationService(
+  dbAuthService,
+  secureService,
+);
 const authService = new AuthService(
   dbAuthService,
   secureService,
-  dbSearchService
-);
-const verificationService = new VerificationService(
-  dbAuthService,
-  secureService
+  dbSearchService,
+  verificationService
 );
 
 export {

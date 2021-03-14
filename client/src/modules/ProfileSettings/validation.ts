@@ -6,6 +6,7 @@ const profileSettingsValidationSchema = (
 ): Yup.SchemaOf<ProfileSettingsFormData> =>
   Yup.object()
     .shape({
+      isTwoFactorActive: Yup.boolean(),
       phone: Yup.string()
         .min(2, "Invalid phone number")
         .max(20, "Invalid phone number")

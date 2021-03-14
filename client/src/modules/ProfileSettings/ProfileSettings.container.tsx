@@ -2,6 +2,7 @@ import { Formik } from "formik";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Loader } from "rsuite";
+import { getMe } from "../Users/store/actions";
 import { selectMe } from "../Users/store/reducer";
 import ProfileSettingsComponent from "./ProfileSettings.component";
 import { updateProfile } from "./store/actions";
@@ -14,6 +15,11 @@ const ProfileSettings: React.FC = () => {
     false
   );
   const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(getMe());
+  }, []);
+
   const onSubmit = (values: ProfileSettingsDataToSend) => {
     dispatch(updateProfile(values));
   };

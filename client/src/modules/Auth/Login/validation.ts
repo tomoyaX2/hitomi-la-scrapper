@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { LoginFormData } from "../store/types";
+import { LoginFormData, TwoFactorFormData } from "../store/types";
 
 const loginValidationScema: Yup.SchemaOf<LoginFormData> = Yup.object()
   .shape({
@@ -12,4 +12,12 @@ const loginValidationScema: Yup.SchemaOf<LoginFormData> = Yup.object()
   })
   .defined();
 
-export { loginValidationScema };
+const twoFactorValidationSchema: Yup.SchemaOf<TwoFactorFormData> = Yup.object()
+  .shape({
+    code: Yup.string()
+      .required("code is required")
+      .max(10, "This code is invalid"),
+  })
+  .defined();
+
+export { loginValidationScema, twoFactorValidationSchema };

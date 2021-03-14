@@ -35,12 +35,9 @@ function Router() {
       <ProtectedRoute path={Routes.signUp} permission={Permissions.canRegister}>
         <SignUp />
       </ProtectedRoute>
-      <ProtectedRoute
-        path={Routes.verification}
-        permission={Permissions.canRegister}
-      >
+      <Route path={Routes.verification}>
         <Verification />
-      </ProtectedRoute>
+      </Route>
       <ProtectedRoute
         path={Routes.me}
         permission={Permissions.viewProfileSettings}

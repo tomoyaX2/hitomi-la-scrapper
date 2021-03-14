@@ -61,7 +61,7 @@ const usersReducer = (state = usersState, action: AnyAction) => {
         me: {
           ...action.data,
           role,
-          phone: !!action.data.phone ? action.data.phone : "",
+          phone: !!action.data?.phone ? action.data.phone : "",
         },
         isLoaded: true,
       };

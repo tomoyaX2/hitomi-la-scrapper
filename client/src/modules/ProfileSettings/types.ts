@@ -18,4 +18,5 @@ export type ProfileSettingsFormData = {
 
 export type ProfileSettingsDataToSend = Partial<UserData> & {
   isTwoFactorActive?: boolean;
+  isPhoneSubmitted?: boolean
 };

@@ -27,6 +27,9 @@ module.exports = {
       code: {
         type: Sequelize.STRING,
       },
+      isPhoneSubmitted: {
+        type: Sequelize.BOOLEAN,
+      },
       isTwoFactorActive: {
         type: Sequelize.BOOLEAN,
       },

@@ -15,6 +15,7 @@ const NavbarComponent: React.FC<NavbarProps> = ({
   isSidebarOpened,
   myName,
   role,
+  visibleTwoFactor,
 }) => {
   return (
     <div className="flex flex-column w-full">
@@ -49,7 +50,9 @@ const NavbarComponent: React.FC<NavbarProps> = ({
         {isVisibleLogin && (
           <ClickOutside
             action={handleChangeLoginModalState}
-            className="absolute mr-12 shadow-lg mt-100 rounded-md"
+            className={`absolute mr-12 shadow-lg ${
+              visibleTwoFactor ? "mt-60" : "mt-100"
+            } rounded-md`}
           >
             <Login handleChangeLoginModalState={handleChangeLoginModalState} />
           </ClickOutside>

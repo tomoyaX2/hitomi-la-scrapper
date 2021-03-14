@@ -2,13 +2,18 @@ import { useFormikContext } from "formik";
 import React from "react";
 import { Button } from "../../components/Button/Button";
 import { Input } from "../../components/Input/Input";
-import { ProfileSettingsProps } from "./types";
+import { Switch } from "../../components/Switch/Switch";
+import { ProfileSettingsDataToSend, ProfileSettingsProps } from "./types";
 
 const ProfileSettingsComponent: React.FC<ProfileSettingsProps> = ({
   isVisiblePasswordFields,
   handleChangeVisiblePasswordFieldsState,
 }) => {
-  const { handleSubmit, setFieldValue } = useFormikContext();
+  const {
+    handleSubmit,
+    setFieldValue,
+    values,
+  } = useFormikContext<ProfileSettingsDataToSend>();
 
   React.useEffect(() => {
     if (!isVisiblePasswordFields) {
@@ -24,6 +29,11 @@ const ProfileSettingsComponent: React.FC<ProfileSettingsProps> = ({
       <Input name="name" label="Name" />
       <Input name="email" label="Email" />
       <Input name="phone" label="Phone" />
+      <Switch
+        label="Two factor Auth"
+        disabled={!values.isPhoneSubmitted}
+        name="isTwoFactorActive"
+      />
       {isVisiblePasswordFields ? (
         <>
           <Input name="oldPassword" isRequired label="Old password" />
@@ -32,7 +42,7 @@ const ProfileSettingsComponent: React.FC<ProfileSettingsProps> = ({
         </>
       ) : (
         <span
-          className="cursor-pointer text-black underline text-lg"
+          className="cursor-pointer text-black underline text-lg mt-4"
           onClick={handleChangeVisiblePasswordFieldsState}
         >
           Change password

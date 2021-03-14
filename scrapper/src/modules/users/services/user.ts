@@ -11,6 +11,7 @@ const fieldsToReturn = [
   "phone",
   "role",
   "updatedAt",
+  "isPhoneSubmitted",
 ];
 
 const expectedCredentialFieldsToUpdate = ["login", "password"];
@@ -22,7 +23,7 @@ const expectedUserFieldsToUpdate = [
 ];
 
 class UserService {
-  constructor(public secureService) {}
+  constructor(public secureService, public verificationService) {}
   formatUserDataToResponse = (credential) => {
     const result = {} as UserFields & { login: string; credentialId: string };
     for (let field of fieldsToReturn) {

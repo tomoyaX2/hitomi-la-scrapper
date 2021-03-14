@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
+import { User } from "../../../../models";
 
 dotenv.config();
 
@@ -62,12 +63,15 @@ class VerificationService {
   initResendCode = async (email, userId) => {
     try {
       const code = (Math.random() * 100000).toFixed();
-      const hashedId = this.secureService.createHash(userId);
-      await this.dbAuthService.updateUserWithCode(hashedId, code);
+      await this.dbAuthService.updateUserWithCode(userId, code);
+      const token = this.secureService.generateToken({
+        userId,
+        isEmail: true,
+      });
       await this.sendEmail({
         to: email,
         subject: "Verification code",
-        html: this.generateTemplate(userId, code),
+        html: this.generateTemplate(token, code),
       });
       return { isSuccess: true };
     } catch (e) {
@@ -75,24 +79,57 @@ class VerificationService {
     }
   };
 
-  retryVerification = async (email, userId) => {
-    const code = (Math.random() * 100000).toFixed();
-    const hashedId = this.secureService.createHash(userId);
-    await this.dbAuthService.updateUserWithCode(hashedId, code);
-    await this.sendEmail({
-      to: email,
-      subject: "Verification code",
-      html: this.generateTemplate(userId, code),
-    });
+  sendSms = async (to, code, token) => {
+    try {
+      const result = client.messages.create({
+        body: `Your verififcation code is: ${code}. ${
+          token
+            ? `Please, move by link ${process.env.SERVER_URL}/verification?token=${token} to finish verifying proccess`
+            : ""
+        }`,
+        from: process.env.TWILIO_PHONE,
+        to,
+      });
+      return { isSuccess: true, data: result, errors: null };
+    } catch (errors) {
+      return { isSuccess: false, data: null, errors };
+    }
   };
 
-  sendSms = async (to, code, userId) => {
-    const result = client.messages.create({
-      body: `Your verififcation code is: ${code}`,
-      from: process.env.TWILIO_PHONE,
-      to,
-    });
-    await this.dbAuthService.updateUserWithCode(userId, code);
+  initVerifyPhone = async (userId, phone) => {
+    try {
+      const code = (Math.random() * 100000).toFixed();
+      await this.dbAuthService.updateUserWithCode(userId, code);
+      const token = this.secureService.generateToken({
+        userId,
+        isPhone: true,
+      });
+      await this.dbAuthService.updateUserWithCode(userId, code);
+      await this.sendSms(phone, code, token);
+      return { isSuccess: true, data: {}, errors: null };
+    } catch (errors) {
+      return { isSuccess: false, data: null, errors };
+    }
+  };
+
+  submitPhone = async (code, id) => {
+    try {
+      const user = await User.findOne({ where: { id } });
+      const isSameCode = code === user.code;
+
+      if (!isSameCode) {
+        return {
+          isSuccess: false,
+          data: null,
+          errors: { code: "Code is invalid" },
+        };
+      }
+      await this.dbAuthService.updateUserWithCode(id, null);
+      await this.dbAuthService.updateUserPhoneState(id, true);
+      return { isSuccess: true, data: {}, errors: null };
+    } catch (errors) {
+      return { isSuccess: false, data: null, errors };
+    }
   };
 }
 

@@ -2,17 +2,19 @@ import {
   LOGIN,
   RESEND_VERIFICATION,
   SIGN_UP,
+  TWO_FACTOR,
   VERIRIFCATION,
 } from "./constants";
-import { LoginFormData, SignUpFormData } from "./types";
+import { LoginFormData, SignUpFormData, TwoFactorLoginData } from "./types";
 
 export const login = (data: LoginFormData) => ({
   type: LOGIN.INIT,
   data,
 });
 
-export const loginSuccess = () => ({
+export const loginSuccess = (data: { visibleTwoFactor: boolean }) => ({
   type: LOGIN.SUCCESS,
+  data,
 });
 
 export const loginFailure = () => ({
@@ -57,4 +59,17 @@ export const resendVerificationSuccess = () => ({
 
 export const resendVerificationFailure = () => ({
   type: RESEND_VERIFICATION.FAILURE,
+});
+
+export const twoFactorLogin = (data: TwoFactorLoginData) => ({
+  type: TWO_FACTOR.INIT,
+  data,
+});
+
+export const twoFactorSuccess = () => ({
+  type: TWO_FACTOR.SUCCESS,
+});
+
+export const twoFactorFailure = () => ({
+  type: TWO_FACTOR.FAILURE,
 });

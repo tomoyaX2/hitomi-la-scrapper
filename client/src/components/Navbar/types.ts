@@ -9,4 +9,5 @@ export type NavbarProps = {
   isSidebarOpened: boolean;
   myName: string;
   role: Roles;
+  visibleTwoFactor: boolean;
 };
