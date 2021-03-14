@@ -2,7 +2,7 @@ import fs from "fs";
 import crypto from "crypto";
 import axios from "axios";
 
-const dir = "./public/downloads";
+const dir = "public/downloads";
 
 class DownloadService {
   constructor(
@@ -30,7 +30,7 @@ class DownloadService {
     const path = `${dir}/${id}/${this.index}.jpg`;
     await response.data.pipe(fs.createWriteStream(path));
     this.index++;
-    return path;
+    return `${id}/${this.index}.jpg`;
   };
 
   prepareDownloadList = async (list) => {

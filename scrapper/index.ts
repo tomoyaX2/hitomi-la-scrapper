@@ -8,13 +8,12 @@ import { usersRouter } from "./src/modules/users/routes";
 const app = express();
 const port = 8000;
 
-app.use(express.json());
+app.use(express.static(__dirname + "/public"));
+app.use(express.json({ limit: "50mb" }));
 app.use("/scrapper", scrapperRouter);
 app.use("/manga", mangaRouter);
 app.use("/users", usersRouter);
 app.use("/auth", authRouter);
-
-app.use(express.static(__dirname + "/public"));
 
 app.get("/", (req, res) => {
   res.sendStatus(200);

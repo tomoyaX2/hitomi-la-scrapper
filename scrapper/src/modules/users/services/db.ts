@@ -22,7 +22,7 @@ class DbUserService {
       const {
         credentialFields,
         userFields,
-      } = this.userService.formatUserAndCredentialsDataToUpdate(data);
+      } = await this.userService.formatUserAndCredentialsDataToUpdate(data);
       const currentUserPhone = await this.selectUserPhone(data.id);
       const isPhoneChanged = currentUserPhone !== userFields.phone;
       if (isPhoneChanged) {

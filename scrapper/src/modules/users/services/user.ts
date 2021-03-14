@@ -23,7 +23,11 @@ const expectedUserFieldsToUpdate = [
 ];
 
 class UserService {
-  constructor(public secureService, public verificationService) {}
+  constructor(
+    public secureService,
+    public verificationService,
+    public fileSystemService
+  ) {}
   formatUserDataToResponse = (credential) => {
     const result = {} as UserFields & { login: string; credentialId: string };
     for (let field of fieldsToReturn) {
@@ -34,9 +38,9 @@ class UserService {
     return result;
   };
 
-  formatUserAndCredentialsDataToUpdate = (data) => {
+  formatUserAndCredentialsDataToUpdate = async (data) => {
     const credentialFields = {};
-    const userFields = {};
+    const userFields = {} as UserFields;
     const hasPassword = !!data.password;
     const targetCredentialFields = hasPassword
       ? expectedCredentialFieldsToUpdate
@@ -52,6 +56,14 @@ class UserService {
     }
     for (let userField of expectedUserFieldsToUpdate) {
       userFields[userField] = data[userField];
+    }
+    const isChangedAvatar = data.avatarUrl.startsWith("data:image");
+    if (!!data.avatarUrl && isChangedAvatar) {
+      const avatarPath = await this.fileSystemService.writeAvatar(
+        data.id,
+        data.avatarUrl
+      );
+      userFields.avatarUrl = avatarPath;
     }
     return { credentialFields, userFields };
   };
