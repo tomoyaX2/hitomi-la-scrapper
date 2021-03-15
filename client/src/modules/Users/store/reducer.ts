@@ -30,11 +30,11 @@ const handleGetMe = async () => {
     const response = await axios.get(Routes.me);
     return response.data.data;
   } catch (e) {
-    notificationService.notify({
-      title: "Error",
-      type: NotificationTypes.error,
-      description: "Cannot get user",
-    });
+    // notificationService.notify({
+    //   title: "Error",
+    //   type: NotificationTypes.error,
+    //   description: "Cannot get user",
+    // });
   }
 };
 

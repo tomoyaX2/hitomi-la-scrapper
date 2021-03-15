@@ -22,7 +22,7 @@ const SidebarComponent: React.FC<SidebarProps> = ({
   return (
     <div className="flex w-full">
       <div
-        className={`flex flex-col bg-black w-56 ${translateSidebar} py-1 h-screen absolute shadow-lg`}
+        className={`flex flex-col bg-black w-56 ${translateSidebar} py-1 h-screen fixed z-10 shadow-lg`}
       >
         <div className={`flex w-full h-16 items-start ${chevronStyle} `}>
           <ThreeArrowChevron
@@ -45,7 +45,11 @@ const SidebarComponent: React.FC<SidebarProps> = ({
           ) : null
         )}
       </div>
-      <div className={`pl-4 mt-20 ${translateContent}`}>{children}</div>
+      <div
+        className={`pl-4 mt-20 ${translateContent} sm:w-136 md:w-136 lg:w-180 xl:w-208 tablet:w-264 laptop:w-328 pc:w-388 other:w-468`}
+      >
+        {children}
+      </div>
     </div>
   );
 };

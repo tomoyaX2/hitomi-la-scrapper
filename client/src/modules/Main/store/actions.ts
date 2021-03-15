@@ -1,4 +1,5 @@
 import { GET_MANGA_LIST } from "./constants";
+import { Manga } from "./types";
 
 const getMangaList = () => {
   return {
@@ -6,9 +7,10 @@ const getMangaList = () => {
   };
 };
 
-const getMangaListSuccess = () => {
+const getMangaListSuccess = (data: Manga[]) => {
   return {
     type: GET_MANGA_LIST.SUCCESS,
+    data,
   };
 };
 

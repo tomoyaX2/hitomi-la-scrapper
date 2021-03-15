@@ -20,7 +20,7 @@ const NavbarComponent: React.FC<NavbarProps> = ({
   return (
     <div className="flex flex-column w-full">
       <div
-        className={`flex w-full bg-black h-17 absolute ${
+        className={`flex w-full bg-black h-17 fixed z-10 ${
           !!myName ? "justify-between" : "justify-end"
         } items-center shadow-lg`}
       >

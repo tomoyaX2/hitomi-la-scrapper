@@ -29,8 +29,9 @@ class DownloadService {
     });
     const path = `${dir}/${id}/${this.index}.jpg`;
     await response.data.pipe(fs.createWriteStream(path));
+    const dbPath = `downloads/${id}/${this.index}.jpg`;
     this.index++;
-    return `${id}/${this.index}.jpg`;
+    return dbPath;
   };
 
   prepareDownloadList = async (list) => {

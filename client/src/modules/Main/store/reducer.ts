@@ -1,21 +1,25 @@
 import axios from "axios";
 import { AnyAction } from "redux";
 import { loop, Cmd } from "redux-loop";
+import { State } from "../../../config/createStore";
 import { ApiRoutes } from "../../../enums/apiRoutes";
 import { getMangaListFailure, getMangaListSuccess } from "./actions";
 import { GET_MANGA_LIST } from "./constants";
-
-type Item = {};
+import { Recomendations } from "./types";
 
 const mainInitialState = {
-  data: [] as Item[],
+  recomendations: { manga: [] } as Recomendations,
   page: 0,
   total: 0,
   perPage: 20,
 };
 
+const selectRecomendations = (state: State) => state.main.recomendations;
+
 const getManga = async () => {
   const data = await axios.get(ApiRoutes.manga);
+  console.log(data, "data");
+  return data.data;
 };
 
 const mainReducer = (state = mainInitialState, action: AnyAction) => {
@@ -30,10 +34,16 @@ const mainReducer = (state = mainInitialState, action: AnyAction) => {
         })
       );
     }
+    case GET_MANGA_LIST.SUCCESS: {
+      return {
+        ...state,
+        recomendations: { ...state.recomendations, manga: action.data },
+      };
+    }
     default: {
       return state;
     }
   }
 };
 
-export { mainReducer, mainInitialState };
+export { mainReducer, mainInitialState, selectRecomendations };
