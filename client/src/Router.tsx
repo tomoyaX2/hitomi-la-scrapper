@@ -13,6 +13,8 @@ import Manga from "./modules/Manga/Manga.container";
 import MangaList from "./modules/MangaList/MangaList.container";
 import ProfileSettings from "./modules/ProfileSettings/ProfileSettings.container";
 import { Me } from "./modules/Users/Me/Me.container";
+import VideosList from "./modules/Videos/List/List.container";
+import SinlgeVideo from "./modules/Videos/Single/Single.container";
 
 function Router() {
   return (
@@ -37,6 +39,12 @@ function Router() {
       </ProtectedRoute>
       <Route path={Routes.verification}>
         <Verification />
+      </Route>
+      <Route exact path={Routes.videos}>
+        <VideosList />
+      </Route>
+      <Route path={Routes.singleVideo}>
+        <SinlgeVideo />
       </Route>
       <ProtectedRoute
         path={Routes.me}

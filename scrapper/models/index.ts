@@ -11,6 +11,7 @@ import { TagFactory } from "./tag";
 import { MangaTagFactory } from "./mangatag";
 import { MangaFactory } from "./manga";
 import { RoleFactory } from "./role";
+import { VideoFactory } from "./video";
 
 const Sequelize = require("sequelize");
 const env = process.env.NODE_ENV || "development";
@@ -40,6 +41,7 @@ const Tag = TagFactory(sequelize);
 const MangaTag = MangaTagFactory(sequelize);
 const Manga = MangaFactory(sequelize);
 const Role = RoleFactory(sequelize);
+const Video = VideoFactory(sequelize);
 
 User.belongsTo(Role, { foreignKey: "role_id", as: "role" });
 Album.belongsToMany(Image, {
@@ -78,7 +80,10 @@ Manga.belongsTo(User, {
 Image.belongsToMany(Album, {
   through: "AlbumImages",
 });
-
+Video.belongsTo(Album, {
+  foreignKey: "album_id",
+  as: "album",
+});
 export {
   Album,
   Image,
@@ -93,5 +98,6 @@ export {
   MangaTag,
   Manga,
   Role,
+  Video,
   sequelize,
 };

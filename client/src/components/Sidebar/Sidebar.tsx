@@ -15,8 +15,11 @@ const selectActiveRoute = (pathname: Routes) => {
     case Routes.games: {
       return 1;
     }
-    case Routes.profileSettings: {
+    case Routes.videos: {
       return 2;
+    }
+    case Routes.profileSettings: {
+      return 3;
     }
     default:
       return 0;
@@ -31,16 +34,17 @@ const Sidebar: React.FC = ({ children }) => {
     setOpened(!isOpened);
   };
   const role = useSelector(selectUserRole);
-  React.useEffect(() => {
-    const targetRoute = selectActiveRoute(history.location.pathname as Routes);
-    setActiveRoute(targetRoute);
-  }, []);
 
   React.useEffect(() => {
     if (role.name === Roles.unauth) {
       setActiveRoute(0);
     }
   }, [role]);
+
+  React.useEffect(() => {
+    const targetRoute = selectActiveRoute(history.location.pathname as Routes);
+    setActiveRoute(targetRoute);
+  }, []);
 
   const handleChangeRoute = (index: number, to: Routes) => () => {
     setActiveRoute(index);

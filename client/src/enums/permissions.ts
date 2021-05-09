@@ -6,4 +6,5 @@ export enum Permissions {
   canRegister = "canRegister",
   readManga = "readManga",
   viewGames = "viewGames",
+  viewVideos = "viewVideos",
 }

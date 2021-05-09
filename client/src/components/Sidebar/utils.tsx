@@ -4,6 +4,7 @@ import { Book } from "../icons/Book";
 import { Gamepad } from "../icons/Gamepad";
 import { Settings } from "../icons/Settings";
 import { IconProps } from "../icons/types";
+import { Videos } from "../icons/Videos";
 
 const dynamicStylesConfig = (isOpened: boolean) => ({
   translateSidebar: isOpened
@@ -15,7 +16,8 @@ const dynamicStylesConfig = (isOpened: boolean) => ({
   chevronStyle: isOpened ? "justify-end px-4" : "items-center justify-end pr-4",
   chevronRotate: isOpened ? "rotate-180" : "rotate 0",
   activeLinkStyle: (index: number, activeRoute: number) => {
-    return activeRoute == index
+    console.log(index, activeRoute);
+    return activeRoute === index
       ? `text-black bg-white py-4 text-xl cursor-pointer	 ${
           isOpened ? "px-9" : "flex justify-end pr-4"
         }`
@@ -37,6 +39,12 @@ const links = [
     icon: (props: IconProps) => <Gamepad {...props} />,
     to: Routes.games,
     permission: Permissions.viewGames,
+  },
+  {
+    label: "Videos",
+    icon: (props: IconProps) => <Videos {...props} />,
+    to: Routes.videos,
+    permission: Permissions.viewVideos,
   },
   {
     label: "Profile Settings",

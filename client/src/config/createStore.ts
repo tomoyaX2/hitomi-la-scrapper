@@ -7,12 +7,14 @@ import {
   profileSettingsState,
 } from "../modules/ProfileSettings/store/reducer";
 import { usersReducer, usersState } from "../modules/Users/store/reducer";
+import { videosReducer, videosState } from "../modules/Videos/store/reducer";
 
 export type State = {
   main: typeof mainInitialState;
   auth: typeof authState;
   users: typeof usersState;
   profileSettings: typeof profileSettingsState;
+  videos: typeof videosState;
 };
 
 const initalState: State = {
@@ -20,6 +22,7 @@ const initalState: State = {
   auth: authState,
   users: usersState,
   profileSettings: profileSettingsState,
+  videos: videosState,
 };
 
 const rootReducer: Reducer<any, any> = combineReducers({
@@ -27,6 +30,7 @@ const rootReducer: Reducer<any, any> = combineReducers({
   auth: authReducer,
   users: usersReducer,
   profileSettings: profileSettingsReducer,
+  videos: videosReducer,
 });
 
 const store = createStore(rootReducer, initalState, install());

@@ -9,6 +9,8 @@ enum Routes {
   verification = "/verification",
   me = "/users/me",
   profileSettings = "/profile",
+  videos = "/videos",
+  singleVideo = "videos/:id",
 }
 
 export { Routes };

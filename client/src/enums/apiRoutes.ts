@@ -8,6 +8,7 @@ enum ApiRoutes {
   updateProfile = "/users/update-profile",
   submitPhone = "/auth/submit-phone",
   twoFactor = "/auth/two-factor",
+  videos = "/videos",
 }
 
 export { ApiRoutes };

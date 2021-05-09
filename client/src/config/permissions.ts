@@ -9,6 +9,7 @@ const permissions = {
   [Permissions.canRegister]: [Roles.unauth],
   [Permissions.readManga]: [Roles.admin, Roles.unauth, Roles.user],
   [Permissions.viewGames]: [Roles.admin, Roles.unauth, Roles.user],
+  [Permissions.viewVideos]: [Roles.admin, Roles.unauth, Roles.user],
 };
 
 export { permissions };
